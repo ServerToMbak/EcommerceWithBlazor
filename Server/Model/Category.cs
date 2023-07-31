@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FirstBlazorProjetWith.netDocumentation.Model
+namespace Server.Model
 {
     public class Category
     {

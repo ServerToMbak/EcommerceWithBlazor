@@ -1,16 +1,23 @@
+using Blazored.LocalStorage;
+using FirstBlazorProjetWith.netDocumentation;
 using FirstBlazorProjetWith.netDocumentation.Data;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
+using Server.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
 builder.Services.AddSingleton<WeatherForecastService>();
-
+builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
+builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddScoped(typeof(HttpClient));
+builder.Services.AddOptions();
+builder.Services.AddAuthenticationCore();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -1,7 +1,7 @@
-﻿using FirstBlazorProjetWith.netDocumentation.Model;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Server.Model;
 
-namespace FirstBlazorProjetWith.netDocumentation.Data
+namespace Server.Data
 {
     public class ApplicationDbContext : DbContext
     {
@@ -9,7 +9,8 @@ namespace FirstBlazorProjetWith.netDocumentation.Data
         {
             
         }
-        public DbSet<Product> products { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }     
     }
 }
