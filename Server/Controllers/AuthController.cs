@@ -14,7 +14,7 @@ namespace Server.Controllers
         private readonly IAuthService _authService;
         private readonly HttpContextAccessor _http;
 
-        public AuthController(IAuthService authService)
+        gpublic AuthController(IAuthService authService)
         {
             _authService = authService;
         }   

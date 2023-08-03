@@ -9,6 +9,10 @@ namespace Server.Mapper
         public MapperProfiles()
         {
             CreateMap<RegisterDto,User>();
+            CreateMap<ProductCreateDto, Product>();
+            
+            CreateMap<Product, ProductReadDto>()
+            .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
         }
     }
 }

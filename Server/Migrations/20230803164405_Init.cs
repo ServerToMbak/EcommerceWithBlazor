@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Server.Migrations
 {
-    /// <inheritdoc />
+    /// <inheritdoc />s
     public partial class Init : Migration
     {
         /// <inheritdoc />
