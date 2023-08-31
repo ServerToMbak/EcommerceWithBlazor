@@ -13,6 +13,8 @@ namespace Server.Mapper
             
             CreateMap<Product, ProductReadDto>()
             .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
+        
+            CreateMap<Category,CategoryDto>();
         }
     }
 }
