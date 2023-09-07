@@ -17,8 +17,4 @@
     <Folder Include="Model\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Server\Server.csproj" />
-  </ItemGroup>
-
 </Project>
