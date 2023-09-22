@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.IdentityModel.Tokens;
 using E_CommerceBlazor.Server.Data;
-using E_CommerceBlazor.Server.Dto;
+using E_CommerceBlazor.Shared.Dto;
 using E_CommerceBlazor.Server.Model;
 using E_CommerceBlazor.Server.Service.Abstract;
-using E_CommerceBlazor.Server.Dto;
+using E_CommerceBlazor.Shared.Dto;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -101,7 +101,7 @@ namespace E_CommerceBlazor.Server.Service.Concrete
 
             return new DataResponse<string>
             {
-                Data = token.Data,
+                Data = "Register Completed",
                 Message = "User has registered Suuccessfuly",
                 Success = true,
             };
@@ -110,8 +110,9 @@ namespace E_CommerceBlazor.Server.Service.Concrete
         {
             List<Claim> claims = new List<Claim>
             {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Email,user.Email),
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+                new Claim(ClaimTypes.Role, user.Role) 
             };
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:SecretKey").Value));
             var credentials = new SigningCredentials(key,SecurityAlgorithms.HmacSha512Signature);

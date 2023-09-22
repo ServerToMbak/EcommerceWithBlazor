@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using E_CommerceBlazor.Server.Dto;
+using E_CommerceBlazor.Shared.Dto;
 using E_CommerceBlazor.Server.Model;
 using E_CommerceBlazor.Server.Service.Abstract;
+using E_CommerceBlazor.Shared.Dtoo;
 
 namespace E_CommerceBlazor.Server.Controllers
 {

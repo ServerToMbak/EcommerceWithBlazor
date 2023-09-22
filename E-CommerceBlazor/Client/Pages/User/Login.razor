@@ -1,0 +1,66 @@
+﻿@page "/login"
+@using Blazored.LocalStorage;
+@using E_CommerceBlazor.Client.Authentication;
+@using E_CommerceBlazor.Shared.Dto;
+@using Microsoft.AspNetCore.Components.Authorization;
+@inject IToastService _toastService
+@inject AuthenticationStateProvider _stateProvider
+@inject ILocalStorageService _localStorage
+@inject IAuthenticationService _authService
+@inject NavigationManager _navigationManager
+
+<body>
+    
+        
+        <div class="Container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="text-center mb-4">
+                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg" alt="Company Logo" class="img-fluid" />
+                    </div>
+
+                    <EditForm Model="login" OnValidSubmit="HandleLogin">
+                    <DataAnnotationsValidator></DataAnnotationsValidator>
+                        <div class="form-group">
+                            <label for="form2Example1">Email</label>
+                            <input type="email" id="form2Example1" @bind-value="login.Email" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="form2Example1">Şifre</label>
+                            <input type="password" id="form2Example1" @bind-value="login.Password" class="form-control" />
+                        </div>
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary">Sign in</button>
+                        </div>
+                    <ValidationSummary></ValidationSummary>
+
+                </EditForm> 
+                </div>
+            </div>
+        </div>
+       
+</body>
+
+@code {
+    LoginDto login = new LoginDto();
+
+    private async Task HandleLogin()
+    {
+        var result = await _authService.Login(login);
+
+
+        if (result.Success)
+        {
+            await _localStorage.SetItemAsync("loginToken", result.Data);
+            await _stateProvider.GetAuthenticationStateAsync();
+            _navigationManager.NavigateTo("/Home");
+            _toastService.ShowSuccess(result.Message);
+        }
+        else
+        {
+            Console.WriteLine(result.Message);
+            _toastService.ShowSuccess(result.Message);
+        }
+
+    }   
+}

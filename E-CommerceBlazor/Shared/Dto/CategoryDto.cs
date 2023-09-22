@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace E_CommerceBlazor.Server.Dto
+namespace E_CommerceBlazor.Shared.Dto
 {
     public class CategoryDto
     {

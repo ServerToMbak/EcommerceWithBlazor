@@ -1,8 +1,8 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
-using E_CommerceBlazor.Server.Dto;
+using E_CommerceBlazor.Shared.Dto;
 using E_CommerceBlazor.Server.Service.Abstract;
-using E_CommerceBlazor.Server.Dto;
+using E_CommerceBlazor.Shared.Dto;
 using System.Security.Claims;
 
 namespace E_CommerceBlazor.Server.Controllerss
