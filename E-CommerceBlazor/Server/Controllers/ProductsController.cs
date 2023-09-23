@@ -19,17 +19,14 @@ namespace E_CommerceBlazor.Server.Controllers
             _repo = repo;
             _mapper = mapper;
        }
-       [HttpGet("/getall")]
-       public async Task<ActionResult<List<ProductReadDto>>> GetAll() 
+       [HttpGet("getall")]
+       public async Task<ActionResult<List<ProductReadDTO>>> GetAll() 
        {
            var result =await _repo.GetAll();
-            var readDto = _mapper.Map<List<ProductReadDto>>(result.Data);
-            
-            
-              return Ok(readDto);
+           return Ok(result);
       
        }
-       [HttpPost("/add")]
+       [HttpPost("add")]
        public async Task<ActionResult<Response>> Add(ProductCreateDto productDto)
        {
             var product = _mapper.Map<Product>(productDto);

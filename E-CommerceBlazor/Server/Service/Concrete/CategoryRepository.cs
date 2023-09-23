@@ -1,6 +1,8 @@
-﻿using E_CommerceBlazor.Server.Data;
+﻿using AutoMapper;
+using E_CommerceBlazor.Server.Data;
 using E_CommerceBlazor.Server.Model;
 using E_CommerceBlazor.Server.Service.Abstract;
+using E_CommerceBlazor.Shared.Dto;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_CommerceBlazor.Server.Service.Concrete
@@ -8,17 +10,20 @@ namespace E_CommerceBlazor.Server.Service.Concrete
     public class CategoryRepository : ICategoryRepository
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public CategoryRepository(ApplicationDbContext context)
+        public CategoryRepository(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
-        public async Task<Response> Add(Category category)
+        public async Task<Response> Add(CategoryCreateDTO categoryCreateDto)
         {
+            var category = _mapper.Map<Category>(categoryCreateDto);
             await _context.Categories.AddAsync(category);
             await _context.SaveChangesAsync();
             return new Response
-            { Success = true, Message = "Category Added" };
+            { Success = true, Message = "Category Added"};
         }
 
         public async Task<Response> Delete(int categoryId)
@@ -36,10 +41,16 @@ namespace E_CommerceBlazor.Server.Service.Concrete
             return new DataResponse<List<Category>> { Data = categories, Message = "Category Listed", Success = true };
         }
 
-        public async Task<DataResponse<Category>> GetById(int categoryId)
+        public async Task<DataResponse<CategoryDto>> GetById(int categoryId)
         {
             var category = await _context.Categories.Include(opt => opt.Products).Where(opt => opt.Id == categoryId).FirstOrDefaultAsync();
-            return new DataResponse<Category> { Data = category, Message = "Category Getted", Success = true };
+            var data = _mapper.Map<CategoryDto>(category);
+            return new DataResponse<CategoryDto> 
+            { 
+                Data = data, 
+                Message = "Category Getted", 
+                Success = true 
+            };
         }
     }
 }

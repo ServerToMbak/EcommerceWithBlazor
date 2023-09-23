@@ -9,13 +9,17 @@ namespace E_CommerceBlazor.Server.Service.Mapper
     {
         public MapperProfiles()
         {
+            //Source --> Destination
+
             CreateMap<RegisterDto,User>();
             CreateMap<ProductCreateDto, Product>();
             
-            CreateMap<Product, ProductReadDto>()
+            CreateMap<Product, ProductReadDTO>()
             .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
-        
-            CreateMap<Category,CategoryDto>();
+
+            CreateMap<Category, CategoryDto>()
+                .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products));
+            CreateMap<CategoryCreateDTO, Category>();
         }
     }
 }

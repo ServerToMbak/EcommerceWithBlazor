@@ -1,12 +1,13 @@
 ﻿using E_CommerceBlazor.Server.Model;
+using E_CommerceBlazor.Shared.Dto;
 
 namespace E_CommerceBlazor.Server.Service.Abstract
 {
     public interface ICategoryRepository
     {
-        public Task<Response> Add(Category category);
+        public Task<Response> Add(CategoryCreateDTO categoryCreateDTO);
         public Task<Response> Delete(int categoryId);
-        public Task<DataResponse<Category>> GetById(int categoryId);
+        public Task<DataResponse<CategoryDto>> GetById(int categoryId);
         public Task<DataResponse<List<Category>>> GetAll();
     }
 }

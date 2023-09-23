@@ -1,18 +1,19 @@
-﻿using E_CommerceBlazor.Client.Authentication;
-using E_CommerceBlazor.Client.Pages.User;
+﻿using E_CommerceBlazor.Client.Pages.User;
+using E_CommerceBlazor.Client.Services.Abstract;
 using E_CommerceBlazor.Server;
 using E_CommerceBlazor.Shared.Dto;
 using Microsoft.AspNetCore.Components.Authorization;
+
 using System.Net.Http.Json;
 
-namespace E_CommerceBlazor.Client.Services.Authentication
+namespace E_CommerceBlazor.Client.Services.Concrete
 {
     public class AuthenticationService : IAuthenticationService
     {
         private readonly HttpClient _http;
         private readonly AuthenticationStateProvider _stateProvider;
 
-        public AuthenticationService(HttpClient http, 
+        public AuthenticationService(HttpClient http,
                 AuthenticationStateProvider stateProvide)
         {
             _http = http;

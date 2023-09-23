@@ -4,11 +4,15 @@ namespace E_CommerceBlazor.Shared.Dtoo
 {
     public class ProductCreateDto
     {
-        [Required]
         public string Name { get; set; }
-        [Required]
+        [Required(ErrorMessage = "You should add A Price for your product")]
         public int Price { get; set; }
-        [Required]
+ 
+        [Required(ErrorMessage = "You should lect A Description for your product")]
         public int CategoryId { get; set; }
+        [Required(ErrorMessage = "You should Choose the Category your product")]
+        public string Description { get; set; }
+        [Required(ErrorMessage = "You should add A Picture of your product for your Customer")]
+        public string PictureUrl { get; set; }
     }
 }

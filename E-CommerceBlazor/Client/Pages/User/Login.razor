@@ -1,8 +1,9 @@
 ﻿@page "/login"
 @using Blazored.LocalStorage;
-@using E_CommerceBlazor.Client.Authentication;
+@using E_CommerceBlazor.Client.Services.Abstract;
 @using E_CommerceBlazor.Shared.Dto;
 @using Microsoft.AspNetCore.Components.Authorization;
+@using Blazored.Toast
 @inject IToastService _toastService
 @inject AuthenticationStateProvider _stateProvider
 @inject ILocalStorageService _localStorage
@@ -53,14 +54,15 @@
         {
             await _localStorage.SetItemAsync("loginToken", result.Data);
             await _stateProvider.GetAuthenticationStateAsync();
+            _toastService.ShowSuccess("You are in deneme toastr");
             _navigationManager.NavigateTo("/Home");
-            _toastService.ShowSuccess(result.Message);
+          
         }
         else
         {
-            Console.WriteLine(result.Message);
-            _toastService.ShowSuccess(result.Message);
+         
+           _toastService.ShowError(result.Message);
+        
         }
-
     }   
 }

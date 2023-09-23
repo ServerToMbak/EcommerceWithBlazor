@@ -2,7 +2,7 @@
 using E_CommerceBlazor.Shared;
 using E_CommerceBlazor.Shared.Dto;
 
-namespace E_CommerceBlazor.Client.Authentication
+namespace E_CommerceBlazor.Client.Services.Abstract
 {
     public interface IAuthenticationService
     {

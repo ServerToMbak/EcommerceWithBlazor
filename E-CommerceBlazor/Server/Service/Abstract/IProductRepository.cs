@@ -1,4 +1,5 @@
 ﻿using E_CommerceBlazor.Server.Model;
+using E_CommerceBlazor.Shared.Dto;
 
 namespace E_CommerceBlazor.Server.Service.Abstract
 {
@@ -7,6 +8,6 @@ namespace E_CommerceBlazor.Server.Service.Abstract
         Task<Response> Add (Product product);
         Task<Response> Delete(int id);
         Task<DataResponse<Product>> GetById(int id);
-        Task<DataResponse<List<Product>>> GetAll();
+        Task<DataResponse<List<ProductReadDTO>>> GetAll();
     }
 }

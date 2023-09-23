@@ -6,5 +6,6 @@ namespace E_CommerceBlazor.Shared.Dto
     {
         [Required]
         public string Name { get; set; }
+        public List<ProductReadDTO> Products { get; set; }
     }
 }

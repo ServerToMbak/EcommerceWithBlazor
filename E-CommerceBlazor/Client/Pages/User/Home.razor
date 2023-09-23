@@ -1,5 +1,36 @@
-﻿<h3>Home</h3>
+﻿@page "/User/Home"
+@using E_CommerceBlazor.Client.Services.Abstract;
+@using E_CommerceBlazor.Shared.Dto;
+@inject IProductService _productService
+
+@foreach(var item in products )
+{
+    @item.Name
+}
+@*<div class="card" style="width: 18rem;">
+  <img src="..." class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title"> Product Name</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <a href="#" class="btn btn-primary">See Details</a>
+  </div>
+</div>*@
 
 @code {
+    List<ProductReadDTO> products = new List<ProductReadDTO>();
 
+    protected override async Task OnInitializedAsync()
+    {
+        var getProducts =await _productService.GetAllProducts();
+        if(getProducts.Success == true)
+        {
+            products = getProducts.Data;
+        }
+        else
+        {
+            Console.WriteLine("An error occuerd while getting products" +
+                getProducts);
+        }
+    }
+        
 }

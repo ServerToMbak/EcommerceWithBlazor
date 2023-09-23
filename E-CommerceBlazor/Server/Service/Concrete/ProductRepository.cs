@@ -3,16 +3,20 @@ using E_CommerceBlazor.Server.Controllers;
 using E_CommerceBlazor.Server.Data;
 using E_CommerceBlazor.Server.Model;
 using E_CommerceBlazor.Server.Service.Abstract;
+using E_CommerceBlazor.Shared.Dto;
+using AutoMapper;
 
 namespace E_CommerceBlazor.Server.Service.Concrete
 {
     public class ProductRepository : IProductRepository
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public ProductRepository(ApplicationDbContext context)
+        public ProductRepository(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
         public async Task<Response> Add(Product product)
         {
@@ -32,12 +36,13 @@ namespace E_CommerceBlazor.Server.Service.Concrete
             await _context.SaveChangesAsync();
             return new Response {Message = "Product Has Deleted",Success = true};
         }
-        public async Task<DataResponse<List<Product>>> GetAll()
+        public async Task<DataResponse<List<ProductReadDTO>>> GetAll()
         {
             var products =  await _context.Products.Include(p=>p.Category).ToListAsync();
-            return new DataResponse<List<Product>>
+            var data = _mapper.Map<List<ProductReadDTO>>(products);
+            return new DataResponse<List<ProductReadDTO>>
             {
-                Data = products,
+                Data = data,
                 Message = "All Products has listed successfuly",
                 Success=true,
             };
