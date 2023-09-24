@@ -1,8 +1,6 @@
 ﻿using E_CommerceBlazor.Shared.Dto;
-using E_CommerceBlazor.Server.Model;
-using E_CommerceBlazor.Shared.Dto;
 
-namespace E_CommerceBlazor.Server.Service.Abstract
+namespace E_CommerceBlazor.Server.Repository.Abstract
 {
     public interface IAuthService
     {

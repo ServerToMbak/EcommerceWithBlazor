@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using E_CommerceBlazor.Server.Data;
 using E_CommerceBlazor.Server.Model;
-using E_CommerceBlazor.Server.Service.Abstract;
+using E_CommerceBlazor.Server.Repository.Abstract;
 using E_CommerceBlazor.Shared.Dto;
 using Microsoft.EntityFrameworkCore;
 
-namespace E_CommerceBlazor.Server.Service.Concrete
+namespace E_CommerceBlazor.Server.Repository.Concrete
 {
     public class CategoryRepository : ICategoryRepository
     {

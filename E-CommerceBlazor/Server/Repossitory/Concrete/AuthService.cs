@@ -3,13 +3,12 @@ using Microsoft.IdentityModel.Tokens;
 using E_CommerceBlazor.Server.Data;
 using E_CommerceBlazor.Shared.Dto;
 using E_CommerceBlazor.Server.Model;
-using E_CommerceBlazor.Server.Service.Abstract;
-using E_CommerceBlazor.Shared.Dto;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using E_CommerceBlazor.Server.Repository.Abstract;
 
-namespace E_CommerceBlazor.Server.Service.Concrete
+namespace E_CommerceBlazor.Server.Repository.Concrete
 {
     public class AuthService : IAuthService
     {

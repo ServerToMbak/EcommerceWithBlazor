@@ -1,6 +1,6 @@
-﻿using E_CommerceBlazor.Server.Service.Abstract;
+﻿using E_CommerceBlazor.Server.Repository.Abstract;
 
-namespace E_CommerceBlazor.Server.Service.Concrete
+namespace E_CommerceBlazor.Server.Repository.Concrete
 {
     public class MailService : IMailService
     {

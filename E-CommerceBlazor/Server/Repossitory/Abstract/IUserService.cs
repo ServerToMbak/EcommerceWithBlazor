@@ -1,6 +1,6 @@
 ﻿using E_CommerceBlazor.Server.Model;
 
-namespace E_CommerceBlazor.Server.Service.Abstract
+namespace E_CommerceBlazor.Server.Repository.Abstract
 {
     public interface IUserService
     {
