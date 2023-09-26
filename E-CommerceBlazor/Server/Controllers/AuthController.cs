@@ -10,7 +10,6 @@ namespace E_CommerceBlazor.Server.Controllerss
     public class AuthController :ControllerBase
     {
         private readonly IAuthService _authService;
-        private readonly HttpContextAccessor _http;
 
         public AuthController(IAuthService authService)
         {
@@ -28,7 +27,7 @@ namespace E_CommerceBlazor.Server.Controllerss
         public async Task<ActionResult<DataResponse<string>>> login(LoginDto login)
         {
             var response = await _authService.Login(login);
-            //var userId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+           
             return Ok(response);
         }
     }

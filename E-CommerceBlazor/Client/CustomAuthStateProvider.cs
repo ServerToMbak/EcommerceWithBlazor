@@ -19,7 +19,7 @@ namespace E_CommerceBlazor.Client
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            string authToken = await _localStorageService.GetItemAsStringAsync("authToken");
+            string authToken = await _localStorageService.GetItemAsStringAsync("loginToken");
             var identity = new ClaimsIdentity();
             _httpClient.DefaultRequestHeaders.Authorization = null;
             if (!string.IsNullOrEmpty(authToken))
@@ -31,7 +31,7 @@ namespace E_CommerceBlazor.Client
                 }
                 catch (Exception)
                 {
-                    await _localStorageService.RemoveItemAsync("authToken");
+                    await _localStorageService.RemoveItemAsync("loginToken");
                     identity = new ClaimsIdentity();
                 }
 

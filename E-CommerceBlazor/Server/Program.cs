@@ -15,7 +15,7 @@ builder.Services.AddServices(builder.Configuration);
 builder.Services.AddSwaggerExtensions(builder.Configuration);
 
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddAutoMapper(typeof(MapperProfiles));
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
 
@@ -34,7 +34,12 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
+
 app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
+app.UseCors("AllowSpecificOrigin");
 app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");

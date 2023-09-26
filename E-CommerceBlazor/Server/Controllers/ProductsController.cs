@@ -32,6 +32,16 @@ namespace E_CommerceBlazor.Server.Controllers
             var product = _mapper.Map<Product>(productDto);
             var response = await _repo.Add(product);
             return Ok(response);
-       } 
+       }
+       [HttpGet("getbyid")]
+       public async Task<ActionResult> GetProductReadDtoByProductId(int ProductId)
+        {
+            var product =await _repo.GetById(ProductId);
+            if(product == null)
+            {
+                return BadRequest();
+            }
+            return Ok(product); 
+        }
     }
 }

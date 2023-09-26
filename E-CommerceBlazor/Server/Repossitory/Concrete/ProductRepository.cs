@@ -47,14 +47,17 @@ namespace E_CommerceBlazor.Server.Repository.Concrete
             };
         }
 
-        public async Task<DataResponse<Product>> GetById(int id)
+        public async Task<DataResponse<ProductReadDTO>> GetById(int id)
         {
-            var product =await _context.Products.Where(p => p.Id == id).FirstOrDefaultAsync();
-            return new DataResponse<Product>
+            var product =await _context.Products.Where(p => p.Id == id).Include(opt => opt.Category).FirstOrDefaultAsync();
+
+            var data = _mapper.Map<ProductReadDTO>(product);
+            
+            return new DataResponse<ProductReadDTO>
             {
-                Data = product,
+                Data = data,
                 Success = true,
-                Message = "Product is getted by id"
+                Message = "ProductReadDTO is getted by id"
             };
         }
     }

@@ -1,0 +1,57 @@
+﻿@page "/product/{id:int}"
+@using E_CommerceBlazor.Client.Services.Abstract;
+@using E_CommerceBlazor.Shared.Dto;
+@inject IProductService _productService
+@inject NavigationManager _navigationManager
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="card-body text-secondary text-md-start">
+            <h3>Product Detail Page</h3>
+        </div>
+
+        <div class="col-md-6 mb-4 mx-auto">
+            <div class="card">
+                <div class="card-body text-center">
+                    <img src="/image/startup-plan-business-goals-diagram.jpg" class="card-img-top" alt="product_photo">
+                    <strong class="card-title">@product.Name</strong>
+                </div>
+                <div class="card-body text-start">
+                    <p class="card-text">@product.Description</p>
+                </div>
+                <div class="card-body text-center mb-2">
+                    <a class="text-danger">@product.Price $</a>
+                </div>
+                <div class="card-body text-center">
+                    <a @onclick = "()=>HandleBasket()" class="btn btn-primary">Add to Basket</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+    ProductReadDTO product = new ProductReadDTO();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result =await _productService.GetProductById(id);
+
+        if(result.Success)
+        {
+            product = result.Data;
+        }
+        else
+        {
+            Console.WriteLine(result.Message);
+        }
+    }
+    private async Task HandleBasket()
+    {
+        _navigationManager.NavigateTo("");   
+    }
+}

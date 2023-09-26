@@ -8,5 +8,6 @@ namespace E_CommerceBlazor.Client.Services.Abstract
     {
         Task<DataResponse<string>> Login(LoginDto login);
         Task<DataResponse<string>> Register(RegisterDto register);
+        Task Logout();
     }
 }

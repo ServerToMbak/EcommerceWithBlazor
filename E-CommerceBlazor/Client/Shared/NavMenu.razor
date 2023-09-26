@@ -1,6 +1,11 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using E_CommerceBlazor.Client.Services.Abstract;
+@using E_CommerceBlazor.Shared.Dto;
+@inject ICategoryService _categoryService
+@inject IToastService _toastService
+@inject NavigationManager _navigationManager
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">E-CommerceBlazor</a>
+        <a class="navbar-brand" href="">Server's E-Commerce</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -9,25 +14,22 @@
 
 <div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
     <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
-            </NavLink>
-        </div>
+        @foreach(var item in categories)
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" @onclick="() => CategoryHandle(item.Id)">
+                    <i class="fa-solid fa-arrow-right"></i>@item.Name
+                </NavLink>
+            </div>
+        }
     </nav>
 </div>
 
 @code {
+    List<CategoryDto> categories = new List<CategoryDto>();
+
+
+
     private bool collapseNavMenu = true;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
@@ -35,5 +37,26 @@
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result =await _categoryService.GetAllCategorries();
+
+        if(result.Success)
+        {
+            categories = result.Data;
+            _toastService.ShowSuccess(result.Message);
+        }
+        else
+        {
+            _toastService.ShowError(result.Message);
+        }
+
+    }
+    private void CategoryHandle(int id)
+    {
+
+            _navigationManager.NavigateTo($"/Categories/{id}");
     }
 }

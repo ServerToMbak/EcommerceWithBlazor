@@ -8,5 +8,6 @@ namespace E_CommerceBlazor.Client.Services.Abstract
     public interface IProductService
     {
         Task<DataResponse<List<ProductReadDTO>>> GetAllProducts();
+        Task<DataResponse<ProductReadDTO>> GetProductById(int id);
     }
 }

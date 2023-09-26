@@ -19,5 +19,11 @@ namespace E_CommerceBlazor.Client.Services.Concrete
             var result =await _http.GetAsync("https://localhost:44387/api/Products/getall");
             return await result.Content.ReadFromJsonAsync<DataResponse<List<ProductReadDTO>>>();
         }
+       
+        public async Task<DataResponse<ProductReadDTO>> GetProductById(int id)
+        {
+            var result = await _http.GetAsync($"https://localhost:44387/api/Products/getbyid?ProductId={id}");
+            return await result.Content.ReadFromJsonAsync<DataResponse<ProductReadDTO>>();
+        }
     }
 }

@@ -2,23 +2,29 @@
 @using E_CommerceBlazor.Client.Services.Abstract;
 @using E_CommerceBlazor.Shared.Dto;
 @inject IProductService _productService
+@inject NavigationManager _navigationManager
 
-@foreach(var item in products )
-{
+<div class="container">
+    <div class="row">
+    @foreach(var item in products )
+    {
+        <div class="col-md-4 mb-4">
 
-    <div class="card" style="width: 18rem;">
-        <img src="@item.PictureUrl" class="card-img-top" alt="product_photo">
+        <div class="card" style="width: 18rem;">
+        <img src="/image/startup-plan-business-goals-diagram.jpg" class="card-img-top" alt="product_photo">
         <div class="card-body">
             <h5 class="card-title">@item.Name</h5>
             <p class="card-text">@item.Description</p>
         </div>
         <div class="card-body text-end">
-        <a href="#" class="btn btn-primary">See Details</a>
-            <a href="#" class="btn btn-primary">@item.Price $</a>
+        <a  @onclick="()=> HandleDetail(item.Id)" class="btn btn-primary">Details</a>
+            <a  class="btn btn-primary">@item.Price $</a>
         </div>
-    </div>
-
-}
+        </div>
+        </div>
+    }
+</div>
+</div>
 
 
 @code {
@@ -36,6 +42,10 @@
             Console.WriteLine("An error occuerd while getting products" +
                 getProducts);
         }
+    }
+    private async Task HandleDetail(int id)
+    {
+        _navigationManager.NavigateTo($"/Product/{id}");
     }
         
 }

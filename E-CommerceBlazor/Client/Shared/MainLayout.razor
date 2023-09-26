@@ -1,31 +1,48 @@
 ﻿@inherits LayoutComponentBase
+@using E_CommerceBlazor.Client.Services.Abstract;
 @using Microsoft.AspNetCore.Components.Authorization
 @using Blazored.Toast.Configuration
 @inject NavigationManager _navigationManager
+@inject IAuthenticationService _authService
 @inject AuthenticationStateProvider _authenticationStateProvider
 <div class="page">
     <div class="sidebar">
         <NavMenu />
     </div>
-  @*  <AuthorizeView>
-        <Authorized>
-            <NavLink class="nav-link">
-                <span class="p-2">Welcome @context.User.Identity.Name</span>
 
-            </NavLink>
-        </Authorized>
-        <NotAuthorized>
-            <NavLink href="" class="nav-link">
-                <span>Login</span>
-            </NavLink>
-
-        </NotAuthorized>
-    </AuthorizeView>*@
     <main>
         <div class="top-row px-4">
             <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
+       
+    <AuthorizeView>
+        <Authorized>
+            <NavLink class="nav-link">
+                <span class="p-2">Welcome @context.User.Identity.Name</span>
+            </NavLink>
+            <NavLink class="nav-link">
+                <span class="p-2">Sepetim</span>
+                <i class="fa-solid fa-basket-shopping"></i>
+            </NavLink>
+            <NavLink class="nav-link" @onclick="Logout">
+                <span class="p-2">Çıkış yap</span>
+            </NavLink>
 
+        </Authorized>
+        <NotAuthorized>
+            <NavLink href="/login" class="nav-link">
+                <span>Giriş yap</span>
+            </NavLink>
+            <NavLink href="/register" class="nav-link">
+                <span>Kayıt ol</span>
+            </NavLink>
+                    
+                    <NavLink class="nav-link">
+                        <span class="p-2">@context.User.Identity.Name</span>
+                    </NavLink>
+        </NotAuthorized>
+    </AuthorizeView>
+
+        </div>
         <article class="content px-4">
             @Body
         </article>
@@ -41,7 +58,7 @@
 @code {
     public async Task Logout()
     {
-        //await _authManager.Logout();
+        await _authService.Logout();
         await _authenticationStateProvider.GetAuthenticationStateAsync();
         _navigationManager.NavigateTo("");
         await OnInitializedAsync();

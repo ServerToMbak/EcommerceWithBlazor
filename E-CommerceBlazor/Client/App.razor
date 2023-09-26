@@ -1,12 +1,21 @@
-﻿<Router AppAssembly="@typeof(App).Assembly">
+﻿<CascadingAuthenticationState>
+<Router AppAssembly="@typeof(App).Assembly">
     <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+            <Authorizing>
+                <p><strong>Giriş Yapılıyor</strong></p>
+            </Authorizing>
+          <NotAuthorized>
+                <E_CommerceBlazor.Client.Pages.User.RedirectToLogin></E_CommerceBlazor.Client.Pages.User.RedirectToLogin>
+            </NotAuthorized>
+        </AuthorizeRouteView>
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
     </Found>
     <NotFound>
-        <PageTitle>Not found</PageTitle>
+        <PageTitle>Bulunamado</PageTitle>
         <LayoutView Layout="@typeof(MainLayout)">
-            <p role="alert">Sorry, there's nothing at this address.</p>
+            <p role="alert">Üzgünüm, Bu adreste hiçbir şey yok.</p>
         </LayoutView>
     </NotFound>
 </Router>
+</CascadingAuthenticationState>

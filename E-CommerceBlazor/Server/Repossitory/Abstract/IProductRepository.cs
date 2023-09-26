@@ -7,7 +7,7 @@ namespace E_CommerceBlazor.Server.Repository.Abstract
     {
         Task<Response> Add (Product product);
         Task<Response> Delete(int id);
-        Task<DataResponse<Product>> GetById(int id);
+        Task<DataResponse<ProductReadDTO>> GetById(int id);
         Task<DataResponse<List<ProductReadDTO>>> GetAll();
     }
 }
