@@ -1,5 +1,6 @@
-﻿using E_CommerceBlazor.Server.Model;
-using E_CommerceBlazor.Server.Repository.Abstract;
+﻿using E_CommerceBlazor.Server.Repository.Abstract;
+using E_CommerceBlazor.Shared.Dto;
+using E_CommerceBlazor.Shared.Model;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_CommerceBlazor.Server.Controllers
@@ -16,7 +17,7 @@ namespace E_CommerceBlazor.Server.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult<DataResponse<Basket>>> CreateAndUpdaetDatabase(Basket basket)
+        public async Task<ActionResult<DataResponse<Basket>>> CreateAndUpdateDatabase(Basket basket)
         {
             var response = await _basketRepository.UpdateBasket(basket);
 
@@ -28,6 +29,20 @@ namespace E_CommerceBlazor.Server.Controllers
             return BadRequest();
             
         }
+        [HttpGet]
+        public async Task<ActionResult> GetBasketAsync(string key)
+        {
+            var response = await _basketRepository.GetBasketAsync(key);
+           if(response != null) 
+           {
+                return Ok(response);
+           }
+
+            return BadRequest();
+        }
+
+
+
         [HttpDelete("delete")]
         public async Task<ActionResult> DeleteBasket(string basketId)
         {

@@ -1,4 +1,4 @@
-﻿using E_CommerceBlazor.Server.Model;
+﻿using E_CommerceBlazor.Shared.Model;
 
 namespace E_CommerceBlazor.Server.Repository.Abstract
 {

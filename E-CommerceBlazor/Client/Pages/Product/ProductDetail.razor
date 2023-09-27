@@ -1,8 +1,15 @@
 ﻿@page "/product/{id:int}"
+@using Blazored.LocalStorage;
 @using E_CommerceBlazor.Client.Services.Abstract;
 @using E_CommerceBlazor.Shared.Dto;
+@using E_CommerceBlazor.Shared.Model;
+
+
 @inject IProductService _productService
 @inject NavigationManager _navigationManager
+@inject ILocalStorageService _localStorage
+@inject IBasketService _basketService;
+@inject IToastService _toastService;
 
 
 <div class="container">
@@ -21,10 +28,13 @@
                     <p class="card-text">@product.Description</p>
                 </div>
                 <div class="card-body text-center mb-2">
-                    <a class="text-danger">@product.Price $</a>
+                    <i class="btn btn-sm  btn-primary fa-solid fa-plus" @onclick="IncreseQuantity"></i>
+                    <a class="text-dark mr-3">Adet : @quantity</a>
+                    <i class="btn btn-sm btn-primary fa-solid fa-minus mr-5" @onclick="DecreseQuantity"></i>
+                    <a class="text-danger ml-5">@totalPrice $</a>
                 </div>
                 <div class="card-body text-center">
-                    <a @onclick = "()=>HandleBasket()" class="btn btn-primary">Add to Basket</a>
+                    <a @onclick = "()=>HandleBasket()" class="btn btn-primary">Sepete Ekle</a>
                 </div>
             </div>
         </div>
@@ -35,7 +45,48 @@
     [Parameter]
     public int id { get; set; }
 
+    int quantity { get; set; } = 1;
+
     ProductReadDTO product = new ProductReadDTO();
+
+    int totalPrice { get; set; }
+
+    List<BasketItem> items = new List<BasketItem>();
+
+    BasketItem item = new BasketItem();
+
+
+
+
+    private async Task HandleBasket()
+    {
+        item.PictureUrl = product.PictureUrl;
+        item.Price = product.Price;
+        item.Quantity = quantity;
+        item.Name = product.Name;
+        item.TotalItemPrice = totalPrice;
+        item.Id = product.Id;
+
+        items.Add(item);
+
+        Basket basket = new Basket(items);
+
+        var resultBasket =await _basketService.CreateBasket(basket);
+        if(resultBasket.Success)
+        {
+            await _localStorage.SetItemAsync("basket", resultBasket.Data);
+            _navigationManager.NavigateTo("/basket");
+            _toastService.ShowSuccess(resultBasket.Message);
+        }
+        else
+        {
+            Console.WriteLine(resultBasket.Data);
+            Console.WriteLine(resultBasket.Message);
+        }
+
+    }
+
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -44,14 +95,30 @@
         if(result.Success)
         {
             product = result.Data;
+            CalculateTotalPrice();
         }
         else
         {
             Console.WriteLine(result.Message);
         }
     }
-    private async Task HandleBasket()
+    private void CalculateTotalPrice()
     {
-        _navigationManager.NavigateTo("");   
+        totalPrice = quantity * product.Price;
+    }
+   
+    private async Task IncreseQuantity()
+    {
+        quantity++;
+        CalculateTotalPrice();
+    }
+    private async Task DecreseQuantity()
+    {
+        if(quantity>1)
+        {
+            quantity--;
+            CalculateTotalPrice();
+        }
+       
     }
 }

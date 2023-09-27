@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using E_CommerceBlazor.Shared.Dto;
-using E_CommerceBlazor.Server.Model;
+using E_CommerceBlazor.Shared.Model;
 using E_CommerceBlazor.Shared.Dtoo;
 
 namespace E_CommerceBlazor.Server.Service.Mapper
@@ -20,6 +20,9 @@ namespace E_CommerceBlazor.Server.Service.Mapper
             CreateMap<Category, CategoryDto>()
                 .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products));
             CreateMap<CategoryCreateDTO, Category>();
+           
+                
         }
+
     }
 }

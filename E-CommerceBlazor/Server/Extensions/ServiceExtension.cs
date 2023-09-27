@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
-namespace E_CommerceBlazor.Server.Extension
+namespace E_CommerceBlazor.Server.Extensions
 {
     public static class ServiceExtension
     {

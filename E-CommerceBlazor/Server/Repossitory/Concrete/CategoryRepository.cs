@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using E_CommerceBlazor.Server.Data;
-using E_CommerceBlazor.Server.Model;
+using E_CommerceBlazor.Shared.Model;
 using E_CommerceBlazor.Server.Repository.Abstract;
 using E_CommerceBlazor.Shared.Dto;
 using Microsoft.EntityFrameworkCore;

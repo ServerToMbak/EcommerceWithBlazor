@@ -1,4 +1,4 @@
-﻿using E_CommerceBlazor.Server.Model;
+﻿using E_CommerceBlazor.Shared.Model;
 using E_CommerceBlazor.Shared.Dto;
 
 namespace E_CommerceBlazor.Server.Repository.Abstract

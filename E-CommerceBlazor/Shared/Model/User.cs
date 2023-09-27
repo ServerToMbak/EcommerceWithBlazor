@@ -1,4 +1,4 @@
-﻿namespace E_CommerceBlazor.Server.Model
+﻿namespace E_CommerceBlazor.Shared.Model
 {
     public class User
     {

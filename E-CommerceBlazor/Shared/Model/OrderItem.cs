@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace E_CommerceBlazor.Server.Model
+namespace E_CommerceBlazor.Shared.Model
 {
     public class OrderItem
     {

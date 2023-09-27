@@ -1,15 +1,21 @@
-﻿using E_CommerceBlazor.Server.Model;
+﻿using E_CommerceBlazor.Shared.Model;
 using E_CommerceBlazor.Server.Repository.Abstract;
+using E_CommerceBlazor.Shared.Model;
 using StackExchange.Redis;
 using System.Text.Json;
+using E_CommerceBlazor.Shared.Dto;
+using AutoMapper;
+using Org.BouncyCastle.Bcpg;
 
 namespace E_CommerceBlazor.Server.Repository.Concrete
 {
     public class BasketRepository : IBasketRepository
     {
+        private readonly IMapper _mapper;
         private readonly IDatabase _db;
-        public BasketRepository(IConnectionMultiplexer db)
+        public BasketRepository(IConnectionMultiplexer db, IMapper mapper)
         {
+            _mapper = mapper;
             _db = db.GetDatabase();
         }
         public async Task<DataResponse<bool>> DeleteBasketAsync(string basketId)
@@ -29,8 +35,32 @@ namespace E_CommerceBlazor.Server.Repository.Concrete
 
         }
 
+        public async Task<DataResponse<Basket>> GetBasketAsync(string key)
+        {
+            var basketJson=await _db.StringGetAsync(key);
+            
+            var basket = JsonSerializer.Deserialize<Basket>(basketJson);
+            if(basket == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return new DataResponse<Basket>
+            {
+                Data = basket,
+                Success = true,
+                Message ="basket get method is worked successfully"
+            };
+        }
+
         public async Task<DataResponse<Basket>> UpdateBasket(Basket basket)
         {
+            int counted = 0;
+            foreach (var item in basket.Items) 
+            {
+                counted = item.TotalItemPrice + counted;
+            }
+            basket.TotalPrice = counted;
             _db.StringSetAsync(basket.Id, JsonSerializer.Serialize(basket), TimeSpan.FromDays(30));
             var obj = await _db.StringGetAsync(basket.Id);
             var dataobj = JsonSerializer.Deserialize<Basket>(obj);

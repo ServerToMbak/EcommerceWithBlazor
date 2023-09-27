@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using E_CommerceBlazor.Server.Model;
+using E_CommerceBlazor.Shared.Model;
 
 namespace E_CommerceBlazor.Server.Data
 {

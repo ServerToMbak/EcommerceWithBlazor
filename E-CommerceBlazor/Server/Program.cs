@@ -1,5 +1,5 @@
 using E_CommerceBlazor.Server.Data;
-using E_CommerceBlazor.Server.Extension;
+using E_CommerceBlazor.Server.Extensions;
 using E_CommerceBlazor.Server.Service.Mapper;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;

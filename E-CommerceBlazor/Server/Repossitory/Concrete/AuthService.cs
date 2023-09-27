@@ -2,7 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using E_CommerceBlazor.Server.Data;
 using E_CommerceBlazor.Shared.Dto;
-using E_CommerceBlazor.Server.Model;
+using E_CommerceBlazor.Shared.Model;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;

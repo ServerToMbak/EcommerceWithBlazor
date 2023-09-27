@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace E_CommerceBlazor.Server.Model
+namespace E_CommerceBlazor.Shared.Model
 {
     public class Product
     {

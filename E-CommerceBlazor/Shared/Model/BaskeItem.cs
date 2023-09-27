@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-
-namespace E_CommerceBlazor.Server.Model
+﻿namespace E_CommerceBlazor.Shared.Model
 {
     public class BasketItem
     {
@@ -10,5 +7,6 @@ namespace E_CommerceBlazor.Server.Model
         public int Price { get; set; }
         public int Quantity { get; set; }
         public string PictureUrl { get; set; }
+        public int TotalItemPrice { get; set; }
     }
 }
