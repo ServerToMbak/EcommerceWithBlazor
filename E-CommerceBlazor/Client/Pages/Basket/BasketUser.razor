@@ -1,0 +1,144 @@
+﻿@page "/basket"
+@using Blazored.LocalStorage;
+@using E_CommerceBlazor.Client.Services.Abstract;
+@using E_CommerceBlazor.Shared.Dto;
+@using E_CommerceBlazor.Shared.Model;
+@using Newtonsoft.Json;
+
+@inject IBasketService _basketService
+@inject NavigationManager _navigationManager
+@inject IToastService _toastService
+@inject AuthenticationStateProvider _stateProvider
+@inject ILocalStorageService _localStorate
+
+@if (basketNull == true)
+{
+    <h3>Sepetinizde ürün bulunmamaktadır </h3>
+}
+else if(basketNull == false) 
+{
+
+    <div class="container">
+    <div class="row">
+    @foreach (var item in productList)
+    {
+
+
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <img src="/image/startup-plan-business-goals-diagram.jpg" class="card-img-top" alt="product_photo">
+                    <strong class="card-title">@item.Name</strong>
+                </div>
+                <div class="card-body text-start">
+                    <p class="card-text">@item.Price</p>
+                </div>
+                <div class="card-body text-start">
+                    <p class="card-text">@item.Quantity</p>
+                </div>
+                <div class="card-body text-center mb-2">
+                    <i class="btn btn-sm btn-primary fa-solid fa-plus" @onclick="() => IncreseQuantity(item)"></i>
+                    <a class="text-dark mr-3">Adet : </a>
+                    <i class="btn btn-sm btn-primary fa-solid fa-minus mr-5" @onclick="() => DecreseQuantity(item)"></i>
+                </div>
+                <div class="card-body text-start">
+                    <p class="text-center">@item.TotalItemPrice $</p>
+                </div>
+            </div>
+        </div>
+    }
+        </div>
+    </div>
+    <a class="text-danger ml-5">@basket.TotalPrice $</a>
+}
+
+
+
+@code {
+    bool basketNull = false;
+
+    List<BasketItem> productList = new List<BasketItem>();
+
+    Basket basket = new Basket();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await _localStorate.GetItemAsStringAsync("basket");
+
+        if (!string.IsNullOrEmpty(result))
+        {
+            basket = Newtonsoft.Json.JsonConvert.DeserializeObject<Basket>(result);
+
+            if (!basket.Items.Any())
+            {
+                basketNull = true;  
+            }
+            productList = basket.Items;
+
+            _toastService.ShowSuccess("Basket items getted");
+        }
+        else
+        {
+            basketNull = true;
+        }
+
+
+    }
+
+    private async Task HandlePayment()
+    {
+
+    }
+    private void UpdatedTotalPrice()
+    {
+        int totalUpdated = 0;
+        foreach (var item in productList)
+        {
+            totalUpdated += item.TotalItemPrice;
+        }
+        basket.TotalPrice = totalUpdated;
+    }
+    private void UpdateBasketProductList()
+    {
+        basket.Items = productList;
+
+    }
+    private async Task IncreseQuantity(BasketItem basketItem)
+    {
+        basketItem.Quantity++;
+        CalculateTotalPrice(basketItem);
+        UpdatedTotalPrice();
+        UpdateBasketProductList();
+        await SaveBasket();
+    }
+    private async Task DecreseQuantity(BasketItem basketItem)
+    {
+        if (basketItem.Quantity == 1)
+        {
+            productList.Remove(basketItem);
+            UpdatedTotalPrice();
+        }
+        else
+        {
+            basketItem.Quantity--;
+            CalculateTotalPrice(basketItem);
+            UpdatedTotalPrice();
+        }
+
+        UpdateBasketProductList();
+        await SaveBasket();
+
+    }
+    private void CalculateTotalPrice(BasketItem basketItem)
+    {
+        basketItem.TotalItemPrice = basketItem.Quantity * basketItem.Price;
+    }
+    private async Task SaveBasket()
+    {
+        //serialize the basket to json
+        var serializedBasket = JsonConvert.SerializeObject(basket);
+
+        await _localStorate.SetItemAsStringAsync("basket",serializedBasket);
+        await _basketService.CreateBasket(basket);
+    }
+}

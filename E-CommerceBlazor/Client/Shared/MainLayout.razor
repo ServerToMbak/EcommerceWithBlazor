@@ -1,9 +1,15 @@
 ﻿@inherits LayoutComponentBase
+@using Blazored.LocalStorage;
 @using E_CommerceBlazor.Client.Services.Abstract;
+@using E_CommerceBlazor.Shared.Model;
 @using Microsoft.AspNetCore.Components.Authorization
 @using Blazored.Toast.Configuration
+@using Newtonsoft.Json;
+
 @inject NavigationManager _navigationManager
 @inject IAuthenticationService _authService
+@inject ILocalStorageService _localStorage;
+@inject IBasketService _baskeService;
 @inject AuthenticationStateProvider _authenticationStateProvider
 <div class="page">
     <div class="sidebar">
@@ -18,10 +24,16 @@
             <NavLink class="nav-link">
                 <span class="p-2">Merhaba @context.User.Identity.Name</span>
             </NavLink>
-            <NavLink class="nav-link">
-                <span class="p-2">Sepetim</span>
-                <i class="fa-solid fa-basket-shopping"></i>
-            </NavLink>
+                    <NavLink href="/basket" class="nav-link">
+                        <span class="p-2">Sepetim</span>
+                        <i class="fa-solid fa-basket-shopping">
+                        @if (basketTotal > 0)
+                        {
+                            @basketTotal
+                        }
+                        </i>
+                    </NavLink>
+
             <NavLink class="nav-link" @onclick="Logout">
                 <span class="p-2">Çıkış yap</span>
             </NavLink>
@@ -55,11 +67,23 @@
                         ErrorIcon="fa fa-bug" />
 
 @code {
+    int basketTotal { get; set; }
     public async Task Logout()
     {
         await _authService.Logout();
         await _authenticationStateProvider.GetAuthenticationStateAsync();
         _navigationManager.NavigateTo("");
         await OnInitializedAsync();
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await _localStorage.GetItemAsStringAsync("basket");
+        Basket? basket = JsonConvert.DeserializeObject<Basket>(result);
+        var basketId = basket.Id;
+
+        var resultCount =await _baskeService.CountBasket(basketId);
+
+        basketTotal = resultCount.Data;
+        Console.WriteLine(basketTotal);
     }
 }

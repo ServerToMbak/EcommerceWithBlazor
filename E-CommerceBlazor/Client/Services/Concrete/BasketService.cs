@@ -17,6 +17,13 @@ namespace E_CommerceBlazor.Client.Services.Concrete
             _http = http;
             _localStorageService  = localStorageService;    
         }
+
+        public async Task<DataResponse<int>> CountBasket(string key)
+        {
+            var result = await _http.GetAsync($"https://localhost:44387/api/Basket/countbasket?key={key}");
+            return await result.Content.ReadFromJsonAsync<DataResponse<int>>();
+        }
+
         public async Task<DataResponse<Basket>> CreateBasket(Basket basket)
         {
             var result = await _http.PostAsJsonAsync("https://localhost:44387/api/Basket/create",basket);

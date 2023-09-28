@@ -19,7 +19,7 @@ namespace E_CommerceBlazor.Server.Controllers
         [HttpPost("create")]
         public async Task<ActionResult<DataResponse<Basket>>> CreateAndUpdateDatabase(Basket basket)
         {
-            var response = await _basketRepository.UpdateBasket(basket);
+            var response = await _basketRepository.CreateOrUpdateBasket(basket);
 
             if(response != null) 
             {
@@ -53,6 +53,12 @@ namespace E_CommerceBlazor.Server.Controllers
                 return BadRequest(response);
             }
 
+            return Ok(response);
+        }
+        [HttpGet("countbasket")]
+        public async Task<ActionResult> GetNumberOfBasketItem(string key)
+        {
+            var response =await _basketRepository.NumberOfBasketItem(key);
             return Ok(response);
         }
 

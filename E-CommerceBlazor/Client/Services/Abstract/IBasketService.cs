@@ -8,5 +8,6 @@ namespace E_CommerceBlazor.Client.Services.Abstract
     {
         Task<DataResponse<Basket>> CreateBasket(Basket basket);
         Task<DataResponse<Basket>> GetBasket(string key);
+        Task<DataResponse<int>> CountBasket(string key);
     }
 }

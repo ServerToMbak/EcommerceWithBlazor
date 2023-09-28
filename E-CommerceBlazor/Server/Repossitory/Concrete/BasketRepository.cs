@@ -6,6 +6,7 @@ using System.Text.Json;
 using E_CommerceBlazor.Shared.Dto;
 using AutoMapper;
 using Org.BouncyCastle.Bcpg;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace E_CommerceBlazor.Server.Repository.Concrete
 {
@@ -53,7 +54,7 @@ namespace E_CommerceBlazor.Server.Repository.Concrete
             };
         }
 
-        public async Task<DataResponse<Basket>> UpdateBasket(Basket basket)
+        public async Task<DataResponse<Basket>> CreateOrUpdateBasket(Basket basket)
         {
             int counted = 0;
             foreach (var item in basket.Items) 
@@ -71,6 +72,22 @@ namespace E_CommerceBlazor.Server.Repository.Concrete
                 Message = "Basket is Created"
             };
 
-        }        
+        }
+
+        public async Task<DataResponse<int>> NumberOfBasketItem(string key)
+        {
+
+            var basketJson = await _db.StringGetAsync(key);
+
+            var basket = JsonSerializer.Deserialize<Basket>(basketJson);
+
+            var count= basket.Items.Count();
+            return new DataResponse<int>
+            {
+                Data = count,
+                Success = true,
+                Message ="Number of basket Item has getted"
+            };
+        }
     }
 }

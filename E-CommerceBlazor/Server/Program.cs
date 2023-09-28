@@ -17,8 +17,6 @@ builder.Services.AddSwaggerExtensions(builder.Configuration);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-
-
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 

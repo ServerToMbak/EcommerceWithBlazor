@@ -3,7 +3,7 @@
 @using E_CommerceBlazor.Client.Services.Abstract;
 @using E_CommerceBlazor.Shared.Dto;
 @using E_CommerceBlazor.Shared.Model;
-
+@inject IJSRuntime _jsruntime
 
 @inject IProductService _productService
 @inject NavigationManager _navigationManager
@@ -34,7 +34,7 @@
                     <a class="text-danger ml-5">@totalPrice $</a>
                 </div>
                 <div class="card-body text-center">
-                    <a @onclick = "()=>HandleBasket()" class="btn btn-primary">Sepete Ekle</a>
+                    <a @onclick="CheckBasket" class="btn btn-primary">Sepete Ekle</a>
                 </div>
             </div>
         </div>
@@ -56,7 +56,45 @@
     BasketItem item = new BasketItem();
 
 
+    private async void CheckBasket()
+    {
+        var basket =await _localStorage.GetItemAsStringAsync("basket");
+        if(basket != null)
+        {
+            Basket createdBasket = Newtonsoft.Json.JsonConvert.DeserializeObject<Basket>(basket);
 
+            var existingProduct = createdBasket.Items.FirstOrDefault(p => p.Id == product.Id);
+
+            if (existingProduct != null)
+            {
+               
+                existingProduct.Quantity += quantity;
+                existingProduct.TotalItemPrice = existingProduct.Quantity * existingProduct.Price;
+               
+            }
+            else
+            {
+                
+                item.PictureUrl = product.PictureUrl;
+                item.Price = product.Price;
+                item.Quantity = quantity;
+                item.Name = product.Name;
+                item.TotalItemPrice = totalPrice;
+                item.Id = product.Id;
+
+                createdBasket.Items.Add(item);
+            }
+            var createdResult = await _basketService.CreateBasket(createdBasket);
+            await _localStorage.RemoveItemAsync("basket");
+            await _localStorage.SetItemAsync("basket", createdResult.Data);
+            _navigationManager.NavigateTo("basket");
+        }
+        else
+        {
+            await HandleBasket();
+            Console.WriteLine("in handle");
+        }
+    }
 
     private async Task HandleBasket()
     {
@@ -75,14 +113,10 @@
         if(resultBasket.Success)
         {
             await _localStorage.SetItemAsync("basket", resultBasket.Data);
-            _navigationManager.NavigateTo("/basket");
+            _navigationManager.NavigateTo("basket");
             _toastService.ShowSuccess(resultBasket.Message);
         }
-        else
-        {
-            Console.WriteLine(resultBasket.Data);
-            Console.WriteLine(resultBasket.Message);
-        }
+
 
     }
 
