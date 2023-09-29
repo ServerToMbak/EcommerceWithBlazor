@@ -6,6 +6,7 @@
 @using Newtonsoft.Json;
 
 @inject IBasketService _basketService
+@inject IProductService _productService
 @inject NavigationManager _navigationManager
 @inject IToastService _toastService
 @inject AuthenticationStateProvider _stateProvider
@@ -49,7 +50,7 @@ else if(basketNull == false)
     }
         </div>
     </div>
-    <a class="text-danger ml-5">@basket.TotalPrice $</a>
+    <a class="text-danger ml-5">Sepet Toplamı: @basket.TotalPrice</a>
 }
 
 
@@ -74,8 +75,18 @@ else if(basketNull == false)
                 basketNull = true;  
             }
             productList = basket.Items;
-
-            _toastService.ShowSuccess("Basket items getted");
+            foreach(var item in productList) //checks if any product's price has changed
+            {
+                var product =await _productService.GetProductById(item.Id);
+                if(product.Data.Price != item.Price)
+                {
+                    item.Price = product.Data.Price;
+                    CalculateTotalPrice(item);
+                }
+                UpdateBasketProductList();
+                UpdatedTotalPrice();
+                await SaveBasket();
+            }
         }
         else
         {

@@ -10,5 +10,7 @@
         public byte[] PasswordSalt { get; set; }
         public string Role { get; set; } = "User";
         public DateTime DateCreated { get; set; } = DateTime.UtcNow;
+        public List<Order>? Orders { get; set; }
+        public Address? Address { get; set; }
     }
 }

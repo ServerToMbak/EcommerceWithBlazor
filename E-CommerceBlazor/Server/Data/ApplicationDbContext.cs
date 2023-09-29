@@ -14,6 +14,7 @@ namespace E_CommerceBlazor.Server.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Address> Addresses { get; set; }
 
     }
 }
