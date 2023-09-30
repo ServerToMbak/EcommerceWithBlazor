@@ -21,6 +21,7 @@ namespace E_CommerceBlazor.Server.Extensions
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IAddressRepository, AddressRepository>();
             services.AddScoped<IBasketRepository, BasketRepository>();
             return services;
         }

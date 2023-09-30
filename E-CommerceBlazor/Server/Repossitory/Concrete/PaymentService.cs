@@ -42,7 +42,7 @@ namespace E_CommerceBlazor.Server.Repossitory.Concrete
             }
 
             Options options = new Options();
-            options.ApiKey = _config["iyzipay:ApiKy"];
+            options.ApiKey = _config["iyzipay:ApiKey"];
             options.SecretKey = _config["iyzipay:SecretKey"];
             options.BaseUrl = _config["iyzipay:BaseUrl"];
 
@@ -80,7 +80,7 @@ namespace E_CommerceBlazor.Server.Repossitory.Concrete
             request.BasketItems = basketData;
             request.ShippingAddress = addressData;
             request.Buyer = buyerData;
-
+            
             try
             {
                 Payment payment = Payment.Create(request, options);
@@ -182,11 +182,11 @@ namespace E_CommerceBlazor.Server.Repossitory.Concrete
                 Surname = user.LastName,
                 Email = user.Email,
                 IdentityNumber = Guid.NewGuid().ToString(),
-                RegistrationAddress = "",
+                RegistrationAddress = "12345",
                 City = user.Address.City,
                 Country = user.Address.Country,
                 ZipCode = user.Address.ZipCode,
-                RegistrationDate = user.DateCreated.ToString(),
+             
             };
             if(buyer == null)
             {

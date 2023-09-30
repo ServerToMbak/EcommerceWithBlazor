@@ -11,19 +11,18 @@ namespace E_CommerceBlazor.Server.Controllers
     public class AddressController: ControllerBase
     {
         private readonly IAddressRepository _addressRepository;
-        private readonly IMapper _mapper;
 
-        public AddressController(IAddressRepository addressRepository, IMapper mapper)
+        public AddressController(IAddressRepository addressRepository)
         {
             _addressRepository = addressRepository;
-            _mapper = mapper;
+           
         }
 
         [HttpPost]
         public async Task<ActionResult> CreateAddress(AddressDTO addressDTO)
         {
-            var address = _mapper.Map<Address>(addressDTO);
-            var result = await _addressRepository.CreateAddress(address);
+          
+            var result = await _addressRepository.CreateAddress(addressDTO);
             if(result.Success == false)
             {
                 return BadRequest();
