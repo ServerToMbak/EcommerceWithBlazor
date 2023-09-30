@@ -6,5 +6,6 @@ namespace E_CommerceBlazor.Server.Repository.Abstract
     {
         public Task<User> GetByMail(string Email);
         public Task<bool> UserExist(string Email);
+        public int GetUserId();
     }
 }

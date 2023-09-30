@@ -77,7 +77,7 @@ else if(basketNull == false)
             productList = basket.Items;
             foreach(var item in productList) //checks if any product's price has changed
             {
-                var product =await _productService.GetProductById(item.Id);
+                var product =await _productService.GetProductById(Convert.ToInt32(item.Id));
                 if(product.Data.Price != item.Price)
                 {
                     item.Price = product.Data.Price;
@@ -142,7 +142,7 @@ else if(basketNull == false)
     }
     private void CalculateTotalPrice(BasketItem basketItem)
     {
-        basketItem.TotalItemPrice = basketItem.Quantity * basketItem.Price;
+        basketItem.TotalItemPrice = basketItem.Quantity * Convert.ToInt32(basketItem.Price);
     }
     private async Task SaveBasket()
     {

@@ -1,7 +1,7 @@
 ﻿using E_CommerceBlazor.Server.Repossitory.Abstract;
 using Iyzipay.Model;
 using Microsoft.AspNetCore.Mvc;
-
+using E_CommerceBlazor.Shared.Model;
 namespace E_ommerceBlazor.Server.Controllers
 {
     [ApiController]
@@ -15,7 +15,7 @@ namespace E_ommerceBlazor.Server.Controllers
             _paymentService = paymentService;
         }
         [HttpPost]
-        public async Task<ActionResult> MakeThePayment(string basketId, PaymentCard card)
+        public async Task<ActionResult> MakeThePayment(string basketId, Iyzipay.Model.PaymentCard card)
         {
           var response = await _paymentService.CreatePaymentRequest(basketId, card);
             return Ok(response);

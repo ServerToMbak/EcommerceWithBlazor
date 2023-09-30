@@ -71,7 +71,7 @@
             await OnInitializedAsync();
         }
     }
-    private async Task HandleDetail(int id)
+    private async Task HandleDetail(string id)
     {
         _navigationManager.NavigateTo($"/Product/{id}");
     }

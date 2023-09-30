@@ -20,8 +20,7 @@ namespace E_CommerceBlazor.Server.Service.Mapper
             CreateMap<Category, CategoryDto>()
                 .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products));
             CreateMap<CategoryCreateDTO, Category>();
-           
-                
+            CreateMap<AddressDTO,Address>();
         }
 
     }
