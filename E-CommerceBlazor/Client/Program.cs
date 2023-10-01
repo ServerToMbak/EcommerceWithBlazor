@@ -25,8 +25,8 @@ builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
-builder.Services.AddScoped<IBasketService, BasketService>();    
-
+builder.Services.AddScoped<IBasketService, BasketService>();
+builder.Services.AddScoped<IAddressService, AddressService>();
 
 builder.Services.AddAuthorizationCore();
 builder.Services.AddOptions();

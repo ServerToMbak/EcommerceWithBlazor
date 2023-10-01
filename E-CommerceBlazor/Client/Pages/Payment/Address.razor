@@ -1,0 +1,110 @@
+﻿@page "/payment/address"
+@inject IAddressService _addressService;
+@using E_CommerceBlazor.Client.Services.Abstract;
+@using E_CommerceBlazor.Shared.Dto;
+@inject IToastService _toastService
+@inject NavigationManager _navigationManager;
+
+
+<link rel="stylesheet" href="/css/AddressPage.css">
+
+
+<div class="row mt-3 mx-3" style="margin-top: 25px;">
+    <div class="col-md-3">
+        <!-- This div is for the image on the left -->
+        <div class="image-container">
+            <img src="/image/3333449.jpg" alt="Your Photo" class="img-custom">
+        </div>
+    </div>
+</div>
+
+    <div class="col-md-9 justify-content-center">
+        <div class="card card-custom pb-4">
+            <div class="card-body mt-0 mx-5">
+                <div class="text-   center mb-3 pb-2 mt-3">
+                    <h4 style="color: #495057 ;">Delivery Details</h4>
+                </div>
+
+                
+            <EditForm Model="address" OnValidSubmit="HandleAddress">
+                    <DataAnnotationsValidator></DataAnnotationsValidator>
+                    <div class="row mb-4">
+                        
+                        <div class="col">
+                            <div class="form-outline">
+                                <input type="text" @bind-value ="address.ContactName" id="form9Example2" class="form-control input-custom" />
+                                <label class="form-label" for="form9Example2">Teslim alan isim</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col">
+                            <div class="form-outline">
+                                <input type="text" @bind-value="address.City" id="form9Example3" class="form-control input-custom" />
+                                <label class="form-label" for="form9Example3">City</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-outline">
+                                <input type="text" @bind-value="address.ZipCode" id="form9Example4" class="form-control input-custom" />
+                                <label class="form-label" for="form9Example4">Zip</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col">
+                            <div class="form-outline">
+                                <input type="text" @bind-value="address.Description" id="form9Example6" class="form-control input-custom" />
+                                <label class="form-label" for="form9Example6">Address</label>
+                            </div>
+                        </div>
+                       
+                    </div>
+
+                    <div class="float-end ">
+                        <!-- Submit button -->
+                        <button type="submit" class="btn btn-primary btn-rounded"
+                                style="background-color: #0062CC ;">
+                           Devam Et
+                        </button>
+                    </div>
+
+            </EditForm>
+            </div>
+        </div>
+    </div>
+
+
+
+
+@code {
+    AddressDTO address = new AddressDTO();
+    protected override async Task OnInitializedAsync()
+    {
+        var result =await _addressService.GetAddress();
+        if(result.Success == true)
+        {
+            address = result.Data;
+        }
+        
+    }
+
+
+
+    private async Task HandleAddress()
+    {
+        var result = await _addressService.CreateAddress(address);
+
+        if(result.Success == true)
+        {
+            Console.WriteLine("buradda");
+            _toastService.ShowSuccess(result.Message);
+            _navigationManager.NavigateTo("/payment/paymentcard");
+        }
+        else
+        {
+            _toastService.ShowError("Addressi kaydederken bir sorun oluştu");
+        }
+    }
+
+}

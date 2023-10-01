@@ -2,10 +2,12 @@
 using E_CommerceBlazor.Server.Repossitory.Abstract;
 using E_CommerceBlazor.Shared.Dto;
 using E_CommerceBlazor.Shared.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_CommerceBlazor.Server.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[Controller]")]
     public class AddressController: ControllerBase
@@ -26,6 +28,18 @@ namespace E_CommerceBlazor.Server.Controllers
             if(result.Success == false)
             {
                 return BadRequest();
+            }
+            return Ok(result);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetAddress()
+        {
+            var result =await _addressRepository.GetAddress();
+
+            if(result.Success == false)
+            {
+                return BadRequest();    
             }
             return Ok(result);
         }

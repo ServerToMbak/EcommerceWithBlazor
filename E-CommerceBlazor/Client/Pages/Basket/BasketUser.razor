@@ -50,8 +50,19 @@ else if(basketNull == false)
     }
         </div>
     </div>
-    <a class="text-danger ml-5">Sepet Toplamı: @basket.TotalPrice</a>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                <a class="text-danger">Sepet Toplamı: @basket.TotalPrice</a>
+            </div>
+            <div class="col-md-6 text-end">
+                <button class="btn btn-primary" @onclick="HandlePayment">Siparişi Tamamla</button>
+            </div>
+        </div>
+    </div>
+    
 }
+
 
 
 
@@ -98,7 +109,7 @@ else if(basketNull == false)
 
     private async Task HandlePayment()
     {
-
+        _navigationManager.NavigateTo("/payment/address");
     }
     private void UpdatedTotalPrice()
     {
@@ -151,5 +162,9 @@ else if(basketNull == false)
 
         await _localStorate.SetItemAsStringAsync("basket",serializedBasket);
         await _basketService.CreateBasket(basket);
+    }
+    private async Task GoToPayment()
+    {
+        
     }
 }

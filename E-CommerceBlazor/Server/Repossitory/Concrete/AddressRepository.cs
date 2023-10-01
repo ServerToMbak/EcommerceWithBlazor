@@ -24,8 +24,21 @@ namespace E_CommerceBlazor.Server.Repossitory.Concrete
         {
             var address = _mapper.Map<Address>(addressDTO);
             address.UserId = _userService.GetUserId();
-            await _context.Addresses.AddAsync(address);
-            await _context.SaveChangesAsync();
+            address.Country = "Türkiye";
+
+            bool userExist = _context.Addresses.Where(opt => opt.UserId == address.UserId).Any();
+            if(userExist)
+            {
+                _context.Addresses.Update(address);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                await _context.Addresses.AddAsync(address);
+                await _context.SaveChangesAsync();
+            }
+           
+
             if(address == null)
             {
                 return new DataResponse<Address>
@@ -42,6 +55,31 @@ namespace E_CommerceBlazor.Server.Repossitory.Concrete
                 Success = true
             };
         
+        }
+
+        public async Task<DataResponse<AddressDTO>> GetAddress()
+        {
+            var userId = _userService.GetUserId();
+            var address = _context.Addresses.Where(opt => opt.UserId == userId).FirstOrDefault();
+
+            var addressDto = _mapper.Map<AddressDTO>(address);
+
+            if(address== null)
+            {
+                return new DataResponse<AddressDTO>
+                {
+                    Data = null,
+                    Message = "The user doesnot have any address",
+                    Success = false
+                };
+            }
+            return new DataResponse<AddressDTO>
+            {
+                Data = addressDto,
+                Success = true,
+                Message = "Adderss is getted"
+            };
+
         }
     }
 }

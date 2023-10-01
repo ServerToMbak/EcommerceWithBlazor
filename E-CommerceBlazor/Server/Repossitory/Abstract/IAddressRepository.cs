@@ -6,5 +6,6 @@ namespace E_CommerceBlazor.Server.Repossitory.Abstract
     public interface IAddressRepository
     {
         Task<DataResponse<Address>> CreateAddress(AddressDTO addressDTO);
+        Task<DataResponse<AddressDTO>> GetAddress();
     }
 }
