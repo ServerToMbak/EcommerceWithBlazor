@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace E_CommerceBlazor.Server.Controllers
 {
-    [Authorize]
+    
     [ApiController]
     [Route("api/[Controller]")]
     public class AddressController: ControllerBase

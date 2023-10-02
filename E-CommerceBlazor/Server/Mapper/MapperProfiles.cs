@@ -21,6 +21,7 @@ namespace E_CommerceBlazor.Server.Service.Mapper
                 .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products));
             CreateMap<CategoryCreateDTO, Category>();
             CreateMap<AddressDTO,Address>().ReverseMap();
+            CreateMap<PaymentCard, Iyzipay.Model.PaymentCard>().ReverseMap();
         }
 
     }

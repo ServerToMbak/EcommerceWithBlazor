@@ -13,6 +13,7 @@ using System;
 using E_CommerceBlazor.Server.Repository.Abstract;
 using E_CommerceBlazor.Server.Data;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 namespace E_CommerceBlazor.Server.Repossitory.Concrete
 {
@@ -22,17 +23,20 @@ namespace E_CommerceBlazor.Server.Repossitory.Concrete
         private readonly IConfiguration _config;
         private readonly IUserService _userService;
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
         public PaymentService(IConnectionMultiplexer db, IConfiguration config, 
-            IUserService userService, ApplicationDbContext context)
+            IUserService userService, ApplicationDbContext context, IMapper mapper)
         {
             _db = db.GetDatabase();
             _config = config;
             _userService = userService;
             _context = context;
+            _mapper = mapper;
         }
-        public async Task<Response> CreatePaymentRequest(string basketId, Iyzipay.Model.PaymentCard card)
+        public async Task<Response> CreatePaymentRequest(string basketId, Shared.Model.PaymentCard card)
         {
+            var cardMapped = _mapper.Map<Iyzipay.Model.PaymentCard>(card);   
             var basketJson =await _db.StringGetAsync(basketId);
             var basket = JsonSerializer.Deserialize<Basket>(basketJson);
         
@@ -54,7 +58,7 @@ namespace E_CommerceBlazor.Server.Repossitory.Concrete
             request.Price = Convert.ToString(basket.TotalPrice);
             request.BasketId = basketId;
             request.PaymentChannel = PaymentChannel.WEB.ToString();
-            request.PaymentCard = card;
+            request.PaymentCard = cardMapped;
 
             var userId = _userService.GetUserId();
             var user =_context.Users.Where(opt => opt.Id == userId).Include(opt => opt.Address).FirstOrDefault();

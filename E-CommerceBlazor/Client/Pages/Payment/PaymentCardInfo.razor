@@ -1,7 +1,100 @@
 ﻿@page "/payment/paymentcard"
+@using Blazored.LocalStorage;
+@using E_CommerceBlazor.Client.Services.Abstract;
+@using E_CommerceBlazor.Shared.Model;
+@using Newtonsoft.Json;
+
+@inject IPaymentService _paymentService;
+@inject IBasketService _basketService;
+@inject ILocalStorageService _localStorage;
+@inject IToastService _toastService
 
 
+<div class="col-md-9 justify-content-center">
+    <div class="card card-custom pb-4">
+        <div class="card-body mt-0 mx-5">
+    
+            <EditForm Model="card" OnValidSubmit="HandlePayment">
+                <DataAnnotationsValidator></DataAnnotationsValidator>
+                
+                <div class="row mb-4">
+
+                    <div class="col">
+                        <div class="form-outline">
+                            <input type="text" @bind-value ="card.CardHolderName" id="form9Example2" class="form-control input-custom" />
+                            <label class="form-label" for="form9Example2">İsim Soyisim</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col">
+                        <div class="form-outline">
+                            <input type="text" @bind-value="card.CardNumber" id="form9Example3" class="form-control input-custom" />
+                            <label class="form-label" for="form9Example3">kart Numarası</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row  mb-4">
+                    <div class="form-outline">
+                        <input type="text" @bind-value="card.ExpireMonth" id="form9Example4" class="form-control input-custom" />
+                        <label class="form-label" for="form9Example4">Ay</label>
+                    </div>
+                    <div class="form-outline">
+                        <input type="text" @bind-value="card.ExpireYear" id="form9Example6" class="form-control input-custom" />
+                        <label class="form-label" for="form9Example6">Yıl</label>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="form-outline">
+                        <input type="text" @bind-value="card.Cvc" id="form9Example6" class="form-control input-custom" />
+                        <label class="form-label" for="form9Example6">CVC</label>
+                    </div>
+
+                </div>
+
+                <div class="float-end ">
+                    <!-- Submit button -->
+                    <button type="submit" class="btn btn-primary btn-rounded"
+                            style="background-color: #0062CC ;">
+                        Ödeme Yap
+                    </button>
+                </div>
+
+            </EditForm>
+        </div>
+    </div>
+</div>
 
 @code {
+    PaymentCard card = new PaymentCard();
+    string basketId;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var basket =await _localStorage.GetItemAsStringAsync("basket");
+        if(basket == null)
+        {
+
+        }
+
+        var basketData = JsonConvert.DeserializeObject<Basket>(basket);
+        basketId = basketData.Id;
+        Console.WriteLine(basketId);
+    }
+    private async Task HandlePayment()
+    {
+        var result = await _paymentService.MakeThePayment(basketId,card);
+
+        if(result.Success)
+        {
+            _toastService.ShowSuccess(result.Message);
+        }
+        else
+        {
+            _toastService.ShowError("An error occured while making the payment");
+        }
+    }
 
 }
