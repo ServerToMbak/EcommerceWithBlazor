@@ -97,13 +97,12 @@
 
         if(result.Success == true)
         {
-            Console.WriteLine("buradda");
-            _toastService.ShowSuccess(result.Message);
+
             _navigationManager.NavigateTo("/payment/paymentcard");
         }
         else
         {
-            _toastService.ShowError("Addressi kaydederken bir sorun oluştu");
+            _toastService.ShowError("Adresi kaydederken bir sorun oluştu");
         }
     }
 

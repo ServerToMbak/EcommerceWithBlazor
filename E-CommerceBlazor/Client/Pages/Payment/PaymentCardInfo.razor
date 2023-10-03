@@ -10,13 +10,13 @@
 @inject IToastService _toastService
 
 
-<div class="col-md-9 justify-content-center">
+<div class="col-md-5 justify-content-center">
     <div class="card card-custom pb-4">
         <div class="card-body mt-0 mx-5">
     
             <EditForm Model="card" OnValidSubmit="HandlePayment">
-                <DataAnnotationsValidator></DataAnnotationsValidator>
-                
+               
+                        <h3>Ödeme yap</h3>
                 <div class="row mb-4">
 
                     <div class="col">
@@ -26,6 +26,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="row mb-4">
                     <div class="col">
                         <div class="form-outline">
@@ -35,14 +36,20 @@
                     </div>
                 </div>
 
-                <div class="row  mb-4">
-                    <div class="form-outline">
-                        <input type="text" @bind-value="card.ExpireMonth" id="form9Example4" class="form-control input-custom" />
-                        <label class="form-label" for="form9Example4">Ay</label>
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <!-- Use col-md-6 to make them each take up half of the row on medium-sized screens and larger -->
+                        <div class="form-outline">
+                            <input type="text" @bind-value="card.ExpireMonth" id="form9Example4" class="form-control input-custom" />
+                            <label class="form-label" for="form9Example4">Ay</label>
+                        </div>
                     </div>
-                    <div class="form-outline">
-                        <input type="text" @bind-value="card.ExpireYear" id="form9Example6" class="form-control input-custom" />
-                        <label class="form-label" for="form9Example6">Yıl</label>
+                    <div class="col-md-6">
+                        <!-- Use col-md-6 to make them each take up half of the row on medium-sized screens and larger -->
+                        <div class="form-outline">
+                            <input type="text" @bind-value="card.ExpireYear" id="form9Example6" class="form-control input-custom" />
+                            <label class="form-label" for="form9Example6">Yıl</label>
+                        </div>
                     </div>
                 </div>
 
@@ -53,7 +60,8 @@
                     </div>
 
                 </div>
-
+                <DataAnnotationsValidator />
+                <ValidationSummary />
                 <div class="float-end ">
                     <!-- Submit button -->
                     <button type="submit" class="btn btn-primary btn-rounded"
@@ -61,7 +69,7 @@
                         Ödeme Yap
                     </button>
                 </div>
-
+               
             </EditForm>
         </div>
     </div>
@@ -90,6 +98,7 @@
         if(result.Success)
         {
             _toastService.ShowSuccess(result.Message);
+            await _localStorage.RemoveItemAsync("basket");
         }
         else
         {

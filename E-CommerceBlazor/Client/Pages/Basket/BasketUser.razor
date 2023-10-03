@@ -71,7 +71,7 @@ else if(basketNull == false)
 
     List<BasketItem> productList = new List<BasketItem>();
 
-    Basket basket = new Basket();
+    Basket? basket = new Basket();
 
     protected override async Task OnInitializedAsync()
     {
@@ -81,11 +81,13 @@ else if(basketNull == false)
         {
             basket = Newtonsoft.Json.JsonConvert.DeserializeObject<Basket>(result);
 
+            productList = basket.Items;
+
             if (!basket.Items.Any())
             {
                 basketNull = true;  
             }
-            productList = basket.Items;
+           
             foreach(var item in productList) //checks if any product's price has changed
             {
                 var product =await _productService.GetProductById(Convert.ToInt32(item.Id));

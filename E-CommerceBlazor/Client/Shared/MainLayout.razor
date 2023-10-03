@@ -68,6 +68,7 @@
 
 @code {
     int basketTotal { get; set; }
+    string basketId { get; set; } = string.Empty;
     public async Task Logout()
     {
         await _authService.Logout();
@@ -77,13 +78,17 @@
     }
     protected override async Task OnInitializedAsync()
     {
-        var result = await _localStorage.GetItemAsStringAsync("basket");
-        Basket? basket = JsonConvert.DeserializeObject<Basket>(result);
-        var basketId = basket.Id;
+        
+            string result = await _localStorage.GetItemAsStringAsync("basket");
+            if(result != null)
+            {
+                Basket? basket = JsonConvert.DeserializeObject<Basket>(result);
+                basketId = basket.Id;
+                var resultCount = await _baskeService.CountBasket(basketId);
 
-        var resultCount =await _baskeService.CountBasket(basketId);
+                basketTotal = resultCount.Data;
+            }
+          
 
-        basketTotal = resultCount.Data;
-        Console.WriteLine(basketTotal);
     }
 }

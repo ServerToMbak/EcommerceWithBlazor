@@ -24,15 +24,17 @@ namespace E_CommerceBlazor.Server.Repossitory.Concrete
         private readonly IUserService _userService;
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IBasketRepository _basketRepository;   
 
         public PaymentService(IConnectionMultiplexer db, IConfiguration config, 
-            IUserService userService, ApplicationDbContext context, IMapper mapper)
+            IUserService userService, ApplicationDbContext context, IMapper mapper, IBasketRepository basketRepository)
         {
             _db = db.GetDatabase();
             _config = config;
             _userService = userService;
             _context = context;
             _mapper = mapper;
+            _basketRepository = basketRepository;
         }
         public async Task<Response> CreatePaymentRequest(string basketId, Shared.Model.PaymentCard card)
         {
@@ -85,19 +87,20 @@ namespace E_CommerceBlazor.Server.Repossitory.Concrete
             request.ShippingAddress = addressData;
             request.Buyer = buyerData;
             
-            try
+              
+            Payment payment = Payment.Create(request, options);
+            var deletedBasket = await _basketRepository.DeleteBasketAsync(request.BasketId);
+            if(deletedBasket.Success != true)
             {
-                Payment payment = Payment.Create(request, options);
-
-            }catch (Exception ex) 
-            {
-                Console.WriteLine(ex.Message);
+                return new Response
+                {
+                    Message = "Beklenmedik bir hatayla karşılaşıldı, lütfen tekrar deneyiniz",
+                    Success = false
+                };
             }
-           
-            
             return new Response 
             {
-                Message = "Payment has done",
+                Message = payment.PaymentStatus,
                 Success = true
             };
 

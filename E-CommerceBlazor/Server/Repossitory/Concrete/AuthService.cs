@@ -120,7 +120,7 @@ namespace E_CommerceBlazor.Server.Repository.Concrete
                 (
                     claims :claims,
                     signingCredentials : credentials,
-                    expires: DateTime.Now.AddDays(1)    
+                    expires: DateTime.Now.AddDays(7)    
                 );
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
