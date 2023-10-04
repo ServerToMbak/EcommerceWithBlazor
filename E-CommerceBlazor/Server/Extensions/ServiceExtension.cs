@@ -1,7 +1,5 @@
 ﻿using E_CommerceBlazor.Server.Repository.Abstract;
 using E_CommerceBlazor.Server.Repository.Concrete;
-using E_CommerceBlazor.Server.Repossitory.Abstract;
-using E_CommerceBlazor.Server.Repossitory.Concrete;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -14,7 +12,7 @@ namespace E_CommerceBlazor.Server.Extensions
         {
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<IPaymentService,PaymentService>();
 
 
             services.AddScoped<IProductRepository, ProductRepository>();
@@ -22,7 +20,6 @@ namespace E_CommerceBlazor.Server.Extensions
             services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IAddressRepository, AddressRepository>();
-            services.AddScoped<IBasketRepository, BasketRepository>();
             return services;
         }
 

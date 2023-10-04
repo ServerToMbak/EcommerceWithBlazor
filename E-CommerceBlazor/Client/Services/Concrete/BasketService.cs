@@ -1,7 +1,6 @@
 ﻿using Blazored.LocalStorage;
 using E_CommerceBlazor.Client.Services.Abstract;
 using E_CommerceBlazor.Server;
-using E_CommerceBlazor.Shared.Dto;
 using E_CommerceBlazor.Shared.Model;
 using System.Net.Http.Json;
 

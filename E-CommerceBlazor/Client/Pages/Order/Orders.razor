@@ -1,0 +1,73 @@
+﻿@page "/orders"
+@using E_CommerceBlazor.Client.Services.Abstract;
+@using E_CommerceBlazor.Shared.Model;
+@inject IOrderService _orderService
+
+  
+    <title>User Orders</title>
+
+    <div class="container mt-4">
+        <h1>User Orders</h1>
+        <div class="row">
+           
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                @foreach(var item in orders)
+                {
+                    <img src="/image/startup-plan-business-goals-diagram.jpg" class="card-img-top" alt="Product Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Order #1</h5>
+                        <p class="card-text">Subtotal: @item.SubTotal</p>
+                        <p class="card-text">Order Date: @item.CreatedDate</p>
+                        <h6 class="card-subtitle mb-2 text-muted">Order Items:</h6>
+                        @foreach (var orderItem in item.OrderItems)
+                        {
+                            <ul class="list-group">
+                          
+                                
+                            
+                               
+                                <li class="list-group-item">
+                                    <div class="d-flex justify-content-between">
+                                        <span>Product Name: @orderItem.Name</span>
+                                        <span>Quantity: @orderItem.Quantity</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <span>Price: @orderItem.Price</span>
+                                        <span>Total: @orderItem.ProductItemPrice</span>
+                                    </div>
+                                </li>
+                                
+                            </ul>
+                        }
+                    </div>
+                }
+               
+                  
+                </div>
+            </div>
+           
+        </div>
+    </div>
+
+
+   
+
+
+
+@code {
+    List<Order> orders = new List<Order>();
+    bool orderNull { get; set; } = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result =await _orderService.GetAllOrders();
+        Console.WriteLine(result.Data.Count);
+        if(orders != null)
+        {
+            orders = result.Data;
+        }
+        
+    }
+
+}

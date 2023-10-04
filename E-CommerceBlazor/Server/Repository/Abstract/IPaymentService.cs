@@ -1,7 +1,6 @@
 ﻿using E_CommerceBlazor.Shared.Model;
-using Iyzipay.Model;
 
-namespace E_CommerceBlazor.Server.Repossitory.Abstract
+namespace E_CommerceBlazor.Server.Repository.Abstract
 {
     public interface IPaymentService
     {

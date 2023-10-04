@@ -1,12 +1,8 @@
 ﻿using E_CommerceBlazor.Shared.Model;
 using E_CommerceBlazor.Server.Repository.Abstract;
-using E_CommerceBlazor.Shared.Model;
 using StackExchange.Redis;
 using System.Text.Json;
-using E_CommerceBlazor.Shared.Dto;
 using AutoMapper;
-using Org.BouncyCastle.Bcpg;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace E_CommerceBlazor.Server.Repository.Concrete
 {

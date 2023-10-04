@@ -6,9 +6,11 @@ namespace E_CommerceBlazor.Shared.Model
     {
         [Key]
         public int Id { get; set; }
-        public List<OrderItem> OrderItems { get; set; }
         public int UserId { get; set; }
-        public int SubTotal { get; set; }
+        public double SubTotal { get; set; }
         public User User { get; set; }
+        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+        public List<OrderItem> OrderItems { get; set; }
+
     }
 }

@@ -21,8 +21,4 @@
     <ProjectReference Include="..\Shared\E-CommerceBlazor.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Pages\Order\" />
-  </ItemGroup>
-
 </Project>

@@ -1,21 +1,15 @@
-﻿using E_CommerceBlazor.Server.Repossitory.Abstract;
-using E_CommerceBlazor.Shared.Model;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using E_CommerceBlazor.Shared.Model;
 using System.Text.Json;
 using StackExchange.Redis;
 using Iyzipay;
 using Iyzipay.Request;
 using Iyzipay.Model;
-using AutoMapper.Configuration.Annotations;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System;
 using E_CommerceBlazor.Server.Repository.Abstract;
 using E_CommerceBlazor.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 
-namespace E_CommerceBlazor.Server.Repossitory.Concrete
+namespace E_CommerceBlazor.Server.Repository.Concrete
 {
     public class PaymentService : IPaymentService
     {
@@ -24,10 +18,12 @@ namespace E_CommerceBlazor.Server.Repossitory.Concrete
         private readonly IUserService _userService;
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
-        private readonly IBasketRepository _basketRepository;   
+        private readonly IBasketRepository _basketRepository;
+        private readonly IOrderRepository _orderRepository;
 
         public PaymentService(IConnectionMultiplexer db, IConfiguration config, 
-            IUserService userService, ApplicationDbContext context, IMapper mapper, IBasketRepository basketRepository)
+            IUserService userService, ApplicationDbContext context, IMapper mapper, IBasketRepository basketRepository,
+            IOrderRepository orderRepository)
         {
             _db = db.GetDatabase();
             _config = config;
@@ -35,6 +31,7 @@ namespace E_CommerceBlazor.Server.Repossitory.Concrete
             _context = context;
             _mapper = mapper;
             _basketRepository = basketRepository;
+            _orderRepository = orderRepository;
         }
         public async Task<Response> CreatePaymentRequest(string basketId, Shared.Model.PaymentCard card)
         {
@@ -89,8 +86,10 @@ namespace E_CommerceBlazor.Server.Repossitory.Concrete
             
               
             Payment payment = Payment.Create(request, options);
-            var deletedBasket = await _basketRepository.DeleteBasketAsync(request.BasketId);
-            if(deletedBasket.Success != true)
+
+            var createOrder = await _orderRepository.CreateOrder(basketId);
+
+            if(createOrder.Success == false )
             {
                 return new Response
                 {

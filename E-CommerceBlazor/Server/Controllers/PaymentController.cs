@@ -1,4 +1,4 @@
-﻿using E_CommerceBlazor.Server.Repossitory.Abstract;
+﻿using E_CommerceBlazor.Server.Repository.Abstract;
 using E_CommerceBlazor.Shared.Model;
 using Microsoft.AspNetCore.Mvc;
 
