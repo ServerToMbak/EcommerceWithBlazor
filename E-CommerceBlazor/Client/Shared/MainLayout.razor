@@ -21,19 +21,21 @@
        
     <AuthorizeView>
         <Authorized>
-            <NavLink class="nav-link">
-                <span class="p-2">Merhaba @context.User.Identity.Name</span>
-            </NavLink>
-                    <NavLink href="/basket" class="nav-link">
-                        <span class="p-2">Sepetim</span>
-                        <i class="fa-solid fa-basket-shopping">
+                <NavLink href="/orders" class="nav-link">
+                        <span>Siparişler</span>
+                </NavLink>
+                <NavLink class="nav-link">
+                    <span class="p-2">Merhaba @context.User.Identity.Name</span>
+                </NavLink>
+                <NavLink href="/basket" class="nav-link">
+                    <span class="p-2">Sepetim</span>
+                    <i class="fa-solid fa-basket-shopping">
                         @if (basketTotal > 0)
                         {
                             @basketTotal
                         }
-                        </i>
-                    </NavLink>
-
+                    </i>
+                </NavLink>
             <NavLink class="nav-link" @onclick="Logout">
                 <span class="p-2">Çıkış yap</span>
             </NavLink>
@@ -46,10 +48,6 @@
             <NavLink href="/register" class="nav-link">
                 <span>Kayıt ol</span>
             </NavLink>
-                    
-                    <NavLink class="nav-link">
-                        <span class="p-2">@context.User.Identity.Name</span>
-                    </NavLink>
         </NotAuthorized>
     </AuthorizeView>
 

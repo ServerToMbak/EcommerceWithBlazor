@@ -5,6 +5,7 @@ namespace E_CommerceBlazor.Client.Services.Abstract
 {
     public interface IOrderService
     {
+        Task<DataResponse<List<Order>>> GetAllOrdersByUser();
         Task<DataResponse<List<Order>>> GetAllOrders();
     }
 }

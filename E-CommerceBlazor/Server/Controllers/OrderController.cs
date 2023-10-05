@@ -1,4 +1,5 @@
 ﻿using E_CommerceBlazor.Server.Repository.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_CommerceBlazor.Server.Controllers
@@ -29,9 +30,23 @@ namespace E_CommerceBlazor.Server.Controllers
         [HttpGet]
         public async Task<ActionResult> GetAllOrdersByUser()
         {
-            var result = await _orderRepository.GetAllOrders();
+            var result = await _orderRepository.GetAllOrdersByUser();
 
             if(result == null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(result);
+        }
+
+        [Authorize(Roles ="Admin")]
+        [HttpGet("admin")]
+        public async Task<ActionResult> GetAllOrders()
+        {
+            var result = await _orderRepository.GetAllOrders();
+
+            if (result == null)
             {
                 return BadRequest();
             }

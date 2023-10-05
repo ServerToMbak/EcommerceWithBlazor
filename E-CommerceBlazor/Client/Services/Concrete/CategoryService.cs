@@ -13,6 +13,13 @@ namespace E_CommerceBlazor.Client.Services.Concrete
         {
             _http = http;
         }
+
+        public async Task<Response> AddCategory(CategoryCreateDTO categoryDTO)
+        {
+            var resut = await _http.PostAsJsonAsync("https://localhost:44387/api/Category/add", categoryDTO);
+            return await resut.Content.ReadFromJsonAsync<Response>();
+        }
+
         public async Task<DataResponse<List<CategoryDto>>> GetAllCategorries()
         {
             var result =await _http.GetAsync("https://localhost:44387/api/Category/getallcategories");

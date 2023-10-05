@@ -13,7 +13,7 @@
             </div>
 
             <EditForm Model="register" OnValidSubmit="HandleRegister">
-                <DataAnnotationsValidator></DataAnnotationsValidator>
+
                 <div class="form-group">
                     <label for="form2Example1">İsim</label>
                     <input type="text" id="form2Example1" @bind-value="register.FirstName" class="form-control" />
@@ -37,7 +37,9 @@
                 <div class="text-center mt-4">
                     <button type="submit" class="btn btn-primary">Kayıt Ol</button>
                 </div>
-                <ValidationSummary></ValidationSummary>
+
+                <DataAnnotationsValidator/>
+                <ValidationSummary/>
 
             </EditForm>
         </div>

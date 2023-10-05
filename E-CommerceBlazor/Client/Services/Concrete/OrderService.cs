@@ -14,10 +14,15 @@ namespace E_CommerceBlazor.Client.Services.Concrete
             _http = http;
         }
 
-        public async Task<DataResponse<List<Order>>> GetAllOrders()
+        public async Task<DataResponse<List<Order>>> GetAllOrdersByUser()
         {
             return await _http.GetFromJsonAsync<DataResponse<List<Order>>>
                     ("https://localhost:44387/api/Order"); 
+        }
+        public async Task<DataResponse<List<Order>>> GetAllOrders()
+        {
+            return await _http.GetFromJsonAsync<DataResponse<List<Order>>>
+                    ("https://localhost:44387/api/Order/admin");
         }
     }
 }

@@ -1,0 +1,85 @@
+﻿@page "/admin"
+@using E_CommerceBlazor.Client.Services.Abstract;
+@using E_CommerceBlazor.Shared.Dto;
+@using E_CommerceBlazor.Shared.Model;
+@inject IToastService _toastService
+@inject IProductService _productService
+@inject ICategoryService _categoryService;
+@inject IOrderService _orderService
+@inject AuthenticationStateProvider _authState
+
+@if(Roles == "Admin")
+{
+    
+}
+else
+{
+    <h3>Sorry There is nothingto see at this address</h3>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+@code {
+    string Roles { get; set; } = string.Empty;
+
+    CategoryCreateDTO categoryDTO = new CategoryCreateDTO();
+
+    List<CategoryDto> categories = new List<CategoryDto>();
+    List<Order> orders = new List<Order>();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var role = (await _authState.GetAuthenticationStateAsync()).User.Claims
+        .FirstOrDefault(x => x.Type == System.Security.Claims.ClaimTypes.Role).Value;
+
+        Roles = role;
+
+
+        var categoryService =await _categoryService.GetAllCategorries();
+        if(categoryService.Success)
+        {
+            categories = categoryService.Data;
+            foreach(var item in categories)
+            {
+                Console.WriteLine(item);
+            }
+        }else
+        {
+            Console.WriteLine("An error occured while trying to get categories");
+        }
+
+
+        var allOrders = await _orderService.GetAllOrders();
+
+        if(allOrders.Success)
+        {
+            orders = allOrders.Data;
+        }
+    }
+
+
+    private async Task AddCategory()
+    {
+
+        var result =await _categoryService.AddCategory(categoryDTO);
+
+        if(result.Success != true)
+        {
+            _toastService.ShowError(result.Message);
+        }
+
+        _toastService.ShowSuccess(result.Message);
+    }
+
+}

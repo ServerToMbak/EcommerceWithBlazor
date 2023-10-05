@@ -7,5 +7,8 @@ namespace E_CommerceBlazor.Client.Services.Abstract
     {
         Task<DataResponse<List<CategoryDto>>> GetAllCategorries();
         Task<DataResponse<CategoryDto>> GetByCategoryId(int id);
+        Task<Response> AddCategory(CategoryCreateDTO categoryDTO);
+
+
     }
 }

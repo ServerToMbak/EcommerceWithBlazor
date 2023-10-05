@@ -69,7 +69,26 @@ namespace E_CommerceBlazor.Server.Repository.Concrete
             };
         }
 
-        public async Task<DataResponse<List<Shared.Model.Order>>> GetAllOrders()
+        public async Task<DataResponse<List<Order>>> GetAllOrders()
+        {
+            var orders = _context.Orders.ToList();
+            
+            if(orders == null)
+            {
+                return new DataResponse<List<Order>> 
+                {
+                    Data = null, Success = false, Message = "There is no order to see yet!"
+                };
+            }
+            return new DataResponse<List<Order>>
+            {
+                Data = orders,
+                Success = false,
+                Message = " All Orders getted"
+            };
+        }
+
+        public async Task<DataResponse<List<Shared.Model.Order>>> GetAllOrdersByUser()
         {
             var userId = _userService.GetUserId();
             var orders = await _context.Orders.Where(opt => opt.UserId == userId).Include(opt => opt.OrderItems).ToListAsync();
