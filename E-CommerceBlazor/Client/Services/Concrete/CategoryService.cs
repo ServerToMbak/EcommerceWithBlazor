@@ -20,6 +20,12 @@ namespace E_CommerceBlazor.Client.Services.Concrete
             return await resut.Content.ReadFromJsonAsync<Response>();
         }
 
+        public async Task<Response> DeleteCategory(int categoryId)
+        {
+            var result = await _http.DeleteAsync($"https://localhost:44387/api/Category/?={categoryId}");
+            return await result.Content.ReadFromJsonAsync<Response>();
+        }
+
         public async Task<DataResponse<List<CategoryDto>>> GetAllCategorries()
         {
             var result =await _http.GetAsync("https://localhost:44387/api/Category/getallcategories");

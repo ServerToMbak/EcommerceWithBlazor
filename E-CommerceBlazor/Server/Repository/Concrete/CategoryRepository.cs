@@ -20,8 +20,19 @@ namespace E_CommerceBlazor.Server.Repository.Concrete
         public async Task<Response> Add(CategoryCreateDTO categoryCreateDto)
         {
             var category = _mapper.Map<Category>(categoryCreateDto);
+            var IsCategoryExist =await _context.Categories.Where(opt => opt.Name == category.Name).AnyAsync();
             await _context.Categories.AddAsync(category);
             await _context.SaveChangesAsync();
+
+            if(IsCategoryExist)
+            {
+                return new Response
+                {
+                    Message = "Bu isimde bir kategori zaten bulunmaktadır",
+                    Success = false
+                };
+                
+            }
             return new Response
             { Success = true, Message = "Category Added"};
         }
@@ -33,6 +44,18 @@ namespace E_CommerceBlazor.Server.Repository.Concrete
             _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
             return new Response { Message="Category Deleted", Success=true };
+        }
+
+        public async Task<Response> DeleteCategory(int categoryId)
+        {
+            var category =await _context.Categories.Where(opt => opt.Id == categoryId).FirstOrDefaultAsync();
+            _context.Categories.Remove(category);
+            await _context.SaveChangesAsync();
+            return new Response()
+            {
+                Message = "Kategori Silindi",
+                Success = true
+            };
         }
 
         public async Task<DataResponse<List<Category>>> GetAll()

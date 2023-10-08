@@ -48,13 +48,15 @@ namespace E_CommerceBlazor.Server.Controllers
 
            return Ok(response); 
         }
-        //[HttpPut("delete")]sq
-        //public async Task<Response> Delete(int categoryId)
-        //{
-        //    var category =await _repo.GetById(categoryId);
-        //    var response = await _repo.Delete(category);
-        //    return Ok(response); 
-           
-        //}
+        [HttpDelete("delete")] 
+        public async Task<ActionResult<Response>> Delete(int categoryId)
+        {
+            var result = await _repo.DeleteCategory(categoryId);
+            if(result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest();
+        }
     }
 }

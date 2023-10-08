@@ -9,5 +9,6 @@ namespace E_CommerceBlazor.Server.Repository.Abstract
         public Task<Response> Delete(int categoryId);
         public Task<DataResponse<CategoryDto>> GetById(int categoryId);
         public Task<DataResponse<List<Category>>> GetAll();
+        public Task<Response> DeleteCategory(int categoryId);
     }
 }

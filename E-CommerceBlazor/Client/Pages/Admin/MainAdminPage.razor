@@ -10,11 +10,18 @@
 
 @if(Roles == "Admin")
 {
-    
+    <button class="btn btn-primary" @onclick="AddCategory"> Yeni Kategori ekle</button>
+    <ul class="list-group">
+        @foreach(var item in categories)
+        {
+            <button class="text-end btn btn-sm btn-primary" @onclick="AddCategory">Sil</button>
+            <li class="list-group-item">@item.Name</li>
+        }
+    </ul>
 }
 else
 {
-    <h3>Sorry There is nothingto see at this address</h3>
+    <h3>Sorry There is nothing to see at this address</h3>
 }
 
 
@@ -78,8 +85,15 @@ else
         {
             _toastService.ShowError(result.Message);
         }
-
-        _toastService.ShowSuccess(result.Message);
+        else
+        {
+            _toastService.ShowSuccess(result.Message);
+        }
     }
+    private async Task Delete(int categoryId)
+    {
+        var result = _categoryService.DeleteCategory(categoryId);
+    }
+
 
 }
