@@ -14,7 +14,7 @@ namespace E_CommerceBlazor.Server.Extensions
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPaymentService,PaymentService>();
 
-
+            services.AddScoped<ICouponRepositıory, CouponRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IBasketRepository, BasketRepository>();

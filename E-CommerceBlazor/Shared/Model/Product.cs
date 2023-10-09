@@ -20,6 +20,5 @@ namespace E_CommerceBlazor.Shared.Model
         public int CategoryId { get; set; }
         [JsonIgnore]
         public Category Category { get; set; }
-        public Coupon Coupon { get; set; }
     }
 }

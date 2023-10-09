@@ -7,17 +7,69 @@
 @inject ICategoryService _categoryService;
 @inject IOrderService _orderService
 @inject AuthenticationStateProvider _authState
+@inject ICouponService _couponService
 
 @if(Roles == "Admin")
 {
-    <button class="btn btn-primary" @onclick="AddCategory"> Yeni Kategori ekle</button>
-    <ul class="list-group">
-        @foreach(var item in categories)
-        {
-            <button class="text-end btn btn-sm btn-primary" @onclick="AddCategory">Sil</button>
-            <li class="list-group-item">@item.Name</li>
-        }
-    </ul>
+    
+   
+            <button class="btn btn-sm btn-danger text-end " @onclick="AddCategory">Sil</button>
+
+    <h3>Kategoriler</h3>
+<button class="btn btn-primary" @onclick="AddCategory"> Yeni Kategori ekle</button>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">index</th>
+                <th scope="col">katgori ismi</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in categories)
+            {
+                <tr>
+                    <th scope="row">@item.Id</th>
+                    <td>@item.Name</td>
+                    <td>
+                        <button class="btn btn-danger delete-button" @onclick=" () => DeleteCategory(item.Id)               ">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+    <h3>Kuponlar</h3>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">index</th>
+                <th scope="col">indirim</th>
+                <th scope="col">kupon kodu</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Coupons)
+            {
+                <tr>
+                    <th scope="row">@item.Id</th>
+                    <td>@item.Discount</td>
+                    <td>@item.Code</td>
+                    <td>
+                        <button @onclick="() =>DeleteCoupon(item.Id) " class="btn btn-danger delete-button">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
 else
 {
@@ -43,7 +95,7 @@ else
 
     List<CategoryDto> categories = new List<CategoryDto>();
     List<Order> orders = new List<Order>();
-
+    List<Coupon> Coupons = new List<Coupon>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -73,6 +125,11 @@ else
         {
             orders = allOrders.Data;
         }
+        var coupons = await _couponService.GetAllCoupons();
+        if(coupons.Success)
+        {
+            Coupons = coupons.Data;
+        }
     }
 
 
@@ -90,9 +147,41 @@ else
             _toastService.ShowSuccess(result.Message);
         }
     }
-    private async Task Delete(int categoryId)
+    private async Task DeleteCategory(int categoryId)
     {
-        var result = _categoryService.DeleteCategory(categoryId);
+        var result =await _categoryService.DeleteCategory(categoryId);
+        if(result.Success)
+        {
+            _toastService.ShowSuccess(result.Message);
+        }
+        else
+        {
+            _toastService.ShowError(result.Message);
+        }
+    }
+    private async Task DeleteCoupon(int categoryId)
+    {
+        var result = await _categoryService.DeleteCategory(categoryId);
+        if (result.Success)
+        {
+            _toastService.ShowSuccess(result.Message);
+        }
+        else
+        {
+            _toastService.ShowError(result.Message);
+        }
+    }
+    private async Task AddCoupon(CouponCreateDTO couponDTO)
+    {
+        var result =await _couponService.AddCoupon(couponDTO);
+        if(result.Success)
+        {
+            _toastService.ShowSuccess(result.Message);
+        }
+        else
+        {
+            _toastService.ShowError(result.Message);
+        }
     }
 
 
