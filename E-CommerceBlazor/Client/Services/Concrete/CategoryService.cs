@@ -22,7 +22,7 @@ namespace E_CommerceBlazor.Client.Services.Concrete
 
         public async Task<Response> DeleteCategory(int categoryId)
         {
-            var result = await _http.DeleteAsync($"https://localhost:44387/api/Category/?={categoryId}");
+            var result = await _http.DeleteAsync($"https://localhost:44387/api/Category/delete?categoryId={categoryId}");
             return await result.Content.ReadFromJsonAsync<Response>();
         }
 

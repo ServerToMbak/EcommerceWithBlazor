@@ -87,14 +87,22 @@ else if(basketNull == false)
             {
                 basketNull = true;  
             }
-           
+
             foreach(var item in productList) //checks if any product's price has changed
             {
                 var product =await _productService.GetProductById(Convert.ToInt32(item.Id));
-                if(product.Data.Price != item.Price)
+                if(!product.Success)
+                {         
+                    productList.Remove(item);
+                   
+                }
+                else
                 {
-                    item.Price = product.Data.Price;
-                    CalculateTotalPrice(item);
+                    if(product.Data.Price != item.Price)
+                    {
+                        item.Price = product.Data.Price;
+                        CalculateTotalPrice(item);
+                    }
                 }
                 UpdateBasketProductList();
                 UpdatedTotalPrice();

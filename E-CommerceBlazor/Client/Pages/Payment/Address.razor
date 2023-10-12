@@ -27,7 +27,7 @@
 
                 
             <EditForm Model="address" OnValidSubmit="HandleAddress">
-                    <DataAnnotationsValidator></DataAnnotationsValidator>
+                   
                     <div class="row mb-4">
                         
                         <div class="col">
@@ -68,7 +68,9 @@
                            Devam Et
                         </button>
                     </div>
-
+                <DataAnnotationsValidator/>
+                <ValidationSummary/> 
+                 
             </EditForm>
             </div>
         </div>

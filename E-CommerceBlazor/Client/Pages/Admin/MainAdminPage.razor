@@ -8,12 +8,9 @@
 @inject IOrderService _orderService
 @inject AuthenticationStateProvider _authState
 @inject ICouponService _couponService
-
+@inject NavigationManager _navigationManager
 @if(Roles == "Admin")
 {
-    
-   
-            <button class="btn btn-sm btn-danger text-end " @onclick="AddCategory">Sil</button>
 
     <h3>Kategoriler</h3>
 <button class="btn btn-primary" @onclick="AddCategory"> Yeni Kategori ekle</button>
@@ -44,32 +41,42 @@
     </table>
 
     <h3>Kuponlar</h3>
+    <button class="btn btn-primary" @onclick="AddCoupon"> Yeni Kupon ekle</button>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">index</th>
-                <th scope="col">indirim</th>
-                <th scope="col">kupon kodu</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Coupons)
-            {
+    @if(Coupons != null)
+    {
+   
+        <table class="table">
+            <thead>
                 <tr>
-                    <th scope="row">@item.Id</th>
-                    <td>@item.Discount</td>
-                    <td>@item.Code</td>
-                    <td>
-                        <button @onclick="() =>DeleteCoupon(item.Id) " class="btn btn-danger delete-button">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
+                    <th scope="col">index</th>
+                    <th scope="col">indirim</th>
+                    <th scope="col">kupon kodu</th>
+                    <th scope="col"></th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Coupons)
+                {
+                    <tr>
+                        <th scope="row">@item.Id</th>
+                        <td>@item.Discount</td>
+                        <td>@item.Code</td>
+                        <td>
+                            <button @onclick="() =>DeleteCoupon(item.Id) " class="btn btn-danger delete-button">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    }
+    else
+    {
+        <h3>Görülecek herhangi bir kupon yok henüz</h3>
+    }
 }
 else
 {
@@ -136,52 +143,38 @@ else
     private async Task AddCategory()
     {
 
-        var result =await _categoryService.AddCategory(categoryDTO);
-
-        if(result.Success != true)
-        {
-            _toastService.ShowError(result.Message);
-        }
-        else
-        {
-            _toastService.ShowSuccess(result.Message);
-        }
+        _navigationManager.NavigateTo("/admin/categoryadd");
     }
     private async Task DeleteCategory(int categoryId)
     {
+
         var result =await _categoryService.DeleteCategory(categoryId);
         if(result.Success)
         {
             _toastService.ShowSuccess(result.Message);
+            await OnInitializedAsync();
         }
         else
         {
             _toastService.ShowError(result.Message);
         }
     }
-    private async Task DeleteCoupon(int categoryId)
+    private async Task DeleteCoupon(int couponId)
     {
-        var result = await _categoryService.DeleteCategory(categoryId);
+        var result = await _couponService.Delete(couponId);
         if (result.Success)
         {
             _toastService.ShowSuccess(result.Message);
+            await OnInitializedAsync();
         }
         else
         {
             _toastService.ShowError(result.Message);
         }
     }
-    private async Task AddCoupon(CouponCreateDTO couponDTO)
+    private async Task AddCoupon()
     {
-        var result =await _couponService.AddCoupon(couponDTO);
-        if(result.Success)
-        {
-            _toastService.ShowSuccess(result.Message);
-        }
-        else
-        {
-            _toastService.ShowError(result.Message);
-        }
+        _navigationManager.NavigateTo("/admin/couponadd");
     }
 
 

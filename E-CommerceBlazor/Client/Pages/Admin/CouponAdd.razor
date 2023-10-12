@@ -1,0 +1,42 @@
+﻿@page "/admin/couponadd"
+@using E_CommerceBlazor.Client.Services.Abstract;
+@using E_CommerceBlazor.Shared.Dto;
+@inject ICouponService _couponService
+@inject NavigationManager _navigationManager
+@inject IToastService _toastService
+<h3>Kupon Ekle</h3>
+<EditForm Model="couponDTO" OnValidSubmit="AddCoupon">
+
+    <div class="form-group col-md-5">
+        <label for="exampleInputEmail1">İndirim Kodu</label>
+        <input @bind-value=couponDTO.Code type="text" class="form-control" id="exampleInputEmail1" placeholder="Kategori Ekle">
+        <small id="emailHelp" class="form-text text-muted">Aynı Kupon Kodundan eklenemez</small>
+    </div>
+    <div class="form-group col-md-5">
+        <label for="exampleInputEmail1">İndirim</label>
+        <input @bind-value=couponDTO.Discount type="number" class="form-control" id="exampleInputEmail1" placeholder="Kategori Ekle">
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+</EditForm>
+
+@code {
+    CouponCreateDTO couponDTO = new CouponCreateDTO();
+    private async Task AddCoupon()
+    {
+        var result = await _couponService.AddCoupon(couponDTO);
+        if (result.Success)
+        {
+            _toastService.ShowSuccess(result.Message);
+            _navigationManager.NavigateTo("/admin");
+        }
+        else
+        {
+            _toastService.ShowError(result.Message);
+        }
+    }
+}

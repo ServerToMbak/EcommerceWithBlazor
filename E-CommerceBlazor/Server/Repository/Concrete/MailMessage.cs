@@ -6,7 +6,6 @@ namespace E_CommerceBlazor.Server.Repository.Concrete
     {
         public MailService()
         {
-            
         }
         public string SendWelcomeMessageMail(string mail)
         {

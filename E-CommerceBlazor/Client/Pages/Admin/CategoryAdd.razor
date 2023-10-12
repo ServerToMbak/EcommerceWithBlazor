@@ -1,0 +1,40 @@
+﻿@page "/admin/categoryadd"
+@using E_CommerceBlazor.Client.Services.Abstract;
+@using E_CommerceBlazor.Shared.Dto;
+@inject IToastService _toastService
+@inject ICategoryService _categoryService
+@inject NavigationManager _navigationManager
+<h2>Kategori Ekle</h2>
+<EditForm Model="categoryDTO" OnValidSubmit="AddCategory">
+
+    <div class="form-group">
+        <label for="exampleInputEmail1">Kategori İsmi</label>
+        <input @bind-value=categoryDTO.Name type="text" class="form-control" id="exampleInputEmail1" placeholder="Kategori Ekle">
+        <small id="emailHelp" class="form-text text-muted">Aynı kategoriden eklenemez</small>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+    <DataAnnotationsValidator/>
+    <ValidationSummary/>
+</EditForm>
+
+
+
+
+@code {
+    CategoryCreateDTO categoryDTO = new CategoryCreateDTO();
+    private async Task AddCategory()
+    {
+        var result = await _categoryService.AddCategory(categoryDTO);
+        if(result.Success)
+        {
+            _toastService.ShowSuccess(result.Message);
+            _navigationManager.NavigateTo("/admin");
+        }
+        else
+        {
+            _toastService.ShowError(result.Message);
+        }
+    }
+}

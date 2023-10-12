@@ -52,13 +52,26 @@ namespace E_CommerceBlazor.Server.Repository.Concrete
             var product =await _context.Products.Where(p => p.Id == id).Include(opt => opt.Category).FirstOrDefaultAsync();
 
             var data = _mapper.Map<ProductReadDTO>(product);
-            
-            return new DataResponse<ProductReadDTO>
+            if(data == null)
             {
-                Data = data,
-                Success = true,
-                Message = "ProductReadDTO is getted by id"
-            };
+                return new DataResponse<ProductReadDTO>
+                {
+                    Data = null,
+                    Success = false,
+                    Message = "Bu id'ye sahiip bir ürün bulunmamaktadır"
+                };
+                   
+            }
+            else
+            {
+
+                return new DataResponse<ProductReadDTO>
+                {
+                    Data = data,
+                    Success = true,
+                    Message = "ProductReadDTO is getted by id"
+                };
+            }
         }
     }
 }
