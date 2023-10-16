@@ -1,0 +1,70 @@
+﻿@page "/admin/category/{id:int}"
+@using E_CommerceBlazor.Client.Services.Abstract;
+@using E_CommerceBlazor.Shared.Dto;
+@inject IProductService _productService
+@inject IToastService _toastService
+@inject NavigationManager _navigationManager
+
+<EditForm Model="productDTO" OnValidSubmit="AddProduct">
+    <DataAnnotationsValidator />
+    <div class="form-group">
+        <label for="exampleInputEmail1">Ürün Adı</label>
+        <input @bind-value=productDTO.Name type="text" class="form-control" placeholder="Ürün Adı">
+        <span class="text-danger">
+            <ValidationMessage For="@(() => productDTO.Name)" />
+
+        </span>
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Fiyat</label>
+        <input @bind-value=productDTO.Price type="number" class="form-control" placeholder="Ücret">
+        <span class="text-danger"> 
+            <ValidationMessage For="@(() => productDTO.Price)" />
+
+        </span>
+
+
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Açıklama</label>
+        <input @bind-value=productDTO.Description type="text" class="form-control" placeholder="ürün Fotoğrafı">
+        <span class="text-danger">
+            <ValidationMessage For="@(() => productDTO.Description)" />
+
+        </span>
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Fotograf</label>
+        <input @bind-value=productDTO.PictureUrl type="text" class="form-control" placeholder="ürün Fotoğrafı">
+        <span class="text-danger">
+            <ValidationMessage For="@(() => productDTO.PictureUrl)" />
+        </span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</EditForm>
+@code {
+
+    [Parameter]
+    public int id { get; set; }
+
+    ProductCreateDto productDTO = new ProductCreateDto {CategoryId = 0};
+
+    protected override async Task OnInitializedAsync()
+    {
+        productDTO.CategoryId = id;
+        Console.WriteLine("categori halledildi");
+    }
+    private async Task AddProduct()
+    {
+        productDTO.CategoryId = id;
+        var response = await _productService.Add(productDTO);
+        
+        if(response.Success)
+        {
+            _toastService.ShowSuccess(response.Message);
+            _navigationManager.NavigateTo("/products");
+        }
+        _toastService.ShowError(response.Message);
+    }
+}

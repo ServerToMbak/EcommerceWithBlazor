@@ -33,6 +33,9 @@
                         <button class="btn btn-danger delete-button" @onclick=" () => DeleteCategory(item.Id)               ">
                             <i class="fas fa-trash"></i>
                         </button>
+                        <button class="btn btn-danger delete-button" @onclick="() => AddProduct(item.Id)">
+                            <i class="fas fa-plus"></i>
+                        </button>
                     </td>
                 </tr>
             }
@@ -175,6 +178,10 @@ else
     private async Task AddCoupon()
     {
         _navigationManager.NavigateTo("/admin/couponadd");
+    }
+    private void AddProduct(int id)
+    {
+        _navigationManager.NavigateTo($"/admin/category/{id}");
     }
 
 

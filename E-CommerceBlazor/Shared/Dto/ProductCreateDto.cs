@@ -1,11 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace E_CommerceBlazor.Shared.Dtoo
+namespace E_CommerceBlazor.Shared.Dto
 {
     public class ProductCreateDto
     {
+
+        [Required(ErrorMessage ="Ürün Adı Boş Geçilemez")]
         public string Name { get; set; }
-        [Required(ErrorMessage = "You should add A Price for your product")]
+        [Required(ErrorMessage = "You should add a Price for the product")]
         public int Price { get; set; }
  
         [Required(ErrorMessage = "You should lect A Description for your product")]

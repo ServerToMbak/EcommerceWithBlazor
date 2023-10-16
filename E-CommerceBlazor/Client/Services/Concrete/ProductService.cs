@@ -14,6 +14,12 @@ namespace E_CommerceBlazor.Client.Services.Concrete
             _http = http;
         }
 
+        public async Task<Response> Add(ProductCreateDto productCreateDTO)
+        {
+            var result =await _http.PostAsJsonAsync("https://localhost:44387/api/Products/add", productCreateDTO);
+            return await result.Content.ReadFromJsonAsync<Response>();
+        }
+
         public async Task<DataResponse<List<ProductReadDTO>>> GetAllProducts()
         {
             var result =await _http.GetAsync("https://localhost:44387/api/Products/getall");

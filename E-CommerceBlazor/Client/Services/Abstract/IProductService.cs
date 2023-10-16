@@ -7,5 +7,6 @@ namespace E_CommerceBlazor.Client.Services.Abstract
     {
         Task<DataResponse<List<ProductReadDTO>>> GetAllProducts();
         Task<DataResponse<ProductReadDTO>> GetProductById(int id);
+        Task<Response> Add(ProductCreateDto productCreateDTO);
     }
 }
